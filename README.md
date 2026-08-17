@@ -81,4 +81,4 @@ php artisan test
 
 ## Licencia
 
-MIT License. Ver archivo LICENSE.
+MIT License. [Ver archivo LICENSE](./LICENSE)
