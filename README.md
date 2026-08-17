@@ -12,6 +12,7 @@ Patrones GoF: Singleton, Factory Method, Adapter, Observer, Repository, Service 
 
 ## Estructura del Proyecto (Basada en la implementación real)
 
+```text
 /
 ├── app/
 │   ├── Http/
@@ -30,40 +31,38 @@ Patrones GoF: Singleton, Factory Method, Adapter, Observer, Repository, Service 
 ├── resources/views/emails/        # Plantillas para notificaciones por correo
 └── bootstrap/                     # Configuración de la aplicación (Laravel 11)
 
-## Instalación y Configuración
 
+Instalación y Configuración
 Clonar el repositorio:
 
+bash
 git clone https://github.com/tu-usuario/sigpaz-backend.git
 cd sigpaz-backend
-
 Instalar dependencias y configurar entorno:
 
+bash
 composer install
 cp .env.example .env
 php artisan key:generate
-
 Configurar la base de datos PostgreSQL en el archivo .env y ejecutar migraciones:
 
+bash
 php artisan migrate --seed
-
 Ejecutar el servidor de desarrollo:
 
+bash
 php artisan serve
-
-## Características Clave
-
+Características Clave
 Autenticación: JWT con autenticación multifactor (MFA) mediante preguntas de seguridad rotativas.
+
 Autorización: RBAC (Control de acceso basado en roles) para Jueces, Secretarios y Alguaciles.
+
 Cifrado: AES-256 para datos personales sensibles usando la extensión pgcrypto.
+
 Auditoría: Registro de eventos mediante Observers y Triggers de base de datos.
+
 Backups: Módulo de respaldo automático con integración a la nube (Patrón Adapter).
 
-## Pruebas
-
-Ejecutar la suite de pruebas unitarias y de integración:
-
-php artisan test
 
 ## Licencia
 
