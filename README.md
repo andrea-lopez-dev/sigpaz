@@ -10,7 +10,7 @@ Seguridad: JWT (Sanctum), RBAC, MFA con OTP, Cifrado AES-256 (pgcrypto)
 Arquitectura: MVC + Service Layer + Repository Pattern
 Patrones GoF: Singleton, Factory Method, Adapter, Observer, Repository, Service Layer
 
-## Estructura del Proyecto (Basada en la implementación real)
+## Estructura del Proyecto
 
 ```text
 /
@@ -33,23 +33,22 @@ Patrones GoF: Singleton, Factory Method, Adapter, Observer, Repository, Service 
 
 
 Instalación y Configuración
-Clonar el repositorio:
-
+Clonar el repositorio
 bash
 git clone https://github.com/tu-usuario/sigpaz-backend.git
+bash
 cd sigpaz-backend
-Instalar dependencias y configurar entorno:
-
+Instalar dependencias y configurar entorno
 bash
 composer install
+bash
 cp .env.example .env
+bash
 php artisan key:generate
-Configurar la base de datos PostgreSQL en el archivo .env y ejecutar migraciones:
-
+Configurar la base de datos PostgreSQL y ejecutar migraciones
 bash
 php artisan migrate --seed
-Ejecutar el servidor de desarrollo:
-
+Ejecutar el servidor de desarrollo
 bash
 php artisan serve
 Características Clave
@@ -62,6 +61,12 @@ Cifrado: AES-256 para datos personales sensibles usando la extensión pgcrypto.
 Auditoría: Registro de eventos mediante Observers y Triggers de base de datos.
 
 Backups: Módulo de respaldo automático con integración a la nube (Patrón Adapter).
+
+Pruebas
+Ejecutar la suite de pruebas unitarias y de integración:
+
+bash
+php artisan test
 
 
 ## Licencia
