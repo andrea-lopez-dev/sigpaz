@@ -35,44 +35,49 @@ Patrones GoF: Singleton, Factory Method, Adapter, Observer, Repository, Service 
 Instalación y Configuración
 Clonar el repositorio
 
-```text
-bash
+```bash
 git clone https://github.com/tu-usuario/sigpaz-backend.git
+...
 
 
-```text
-bash
+```bash
 cd sigpaz-backend
+...
+
+
+
 Instalar dependencias y configurar entorno
 
-
-```text
-bash
+```bash
 composer install
+...
 
 
-```text
-bash
+```bash
 cp .env.example .env
+...
 
 
-```text
-bash
+```bash
 php artisan key:generate
+...
+
+
 Configurar la base de datos PostgreSQL y ejecutar migraciones
 
 
-```text
-bash
+```bash
 php artisan migrate --seed
+...
 
 
 Ejecutar el servidor de desarrollo
 
 
-```text
-bash
+```bash
 php artisan serve
+...
+
 
 Características Clave
 
@@ -86,11 +91,13 @@ Auditoría: Registro de eventos mediante Observers y Triggers de base de datos.
 
 Backups: Módulo de respaldo automático con integración a la nube (Patrón Adapter).
 
+
 Pruebas
 Ejecutar la suite de pruebas unitarias y de integración:
 
-bash
+```bash
 php artisan test
+...
 
 
 Licencia
