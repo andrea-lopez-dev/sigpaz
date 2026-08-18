@@ -1,10 +1,10 @@
-# SIGPAZ Backend - API RESTful con Laravel 11
+# SIGPAZ Backend - API RESTful con Laravel 12
 
 API del sistema SIGPAZ para la gestión de casos y control de asistencia del personal en el Módulo de Justicia de Paz Comunal "Circuito: Fuerza Revolucionaria".
 
 ## Stack Tecnológico
 
-Framework: Laravel 11 (PHP 8.2)
+Framework: Laravel 12 (PHP 8.2)
 Base de Datos: PostgreSQL 12+ (con extensiones pgcrypto y pgvector)
 Seguridad: JWT (Sanctum), RBAC, MFA con OTP, Cifrado AES-256 (pgcrypto)
 Arquitectura: MVC + Service Layer + Repository Pattern
@@ -47,7 +47,7 @@ cd sigpaz-backend
 
 
 
-## Instalar dependencias y configurar entorno
+Instalar dependencias y configurar entorno
 
 ```bash
 composer install
