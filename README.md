@@ -32,7 +32,7 @@ Patrones GoF: Singleton, Factory Method, Adapter, Observer, Repository, Service 
 └── bootstrap/                     # Configuración de la aplicación (Laravel 11)
 ```
 
-Instalación y Configuración
+## Instalación y Configuración
 
 Clonar el repositorio
 
@@ -47,7 +47,7 @@ cd sigpaz-backend
 
 
 
-Instalar dependencias y configurar entorno
+## Instalar dependencias y configurar entorno
 
 ```bash
 composer install
@@ -80,25 +80,25 @@ php artisan serve
 ```
 
 
-Características Clave
+## Características Clave
 
-Autenticación: JWT con autenticación multifactor (MFA) mediante preguntas de seguridad rotativas.
+- **Autenticación:** JWT con autenticación multifactor (MFA) mediante preguntas de seguridad rotativas.
 
-Autorización: RBAC (Control de acceso basado en roles) para Jueces, Secretarios y Alguaciles.
+- **Autorización:** RBAC (Control de acceso basado en roles) para Jueces, Secretarios y Alguaciles.
 
-Cifrado: AES-256 para datos personales sensibles usando la extensión pgcrypto.
+- **Cifrado:** AES-256 para datos personales sensibles usando la extensión pgcrypto.
 
-Auditoría: Registro de eventos mediante Observers y Triggers de base de datos.
+- **Auditoría:** Registro de eventos mediante Observers y Triggers de base de datos.
 
-Backups: Módulo de respaldo automático con integración a la nube (Patrón Adapter).
+- **Backups:** Módulo de respaldo automático con integración a la nube (Patrón Adapter).
 
 
-Pruebas
+## Pruebas
 Ejecutar la suite de pruebas unitarias y de integración:
 
 ```bash
 php artisan test
 ```
 
-Licencia
+## Licencia
 MIT License. Ver archivo LICENSE
