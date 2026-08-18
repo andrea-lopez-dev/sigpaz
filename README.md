@@ -103,31 +103,31 @@ php artisan serve
     <tr>
       <td align="center">
         <strong>Casos de Uso</strong><br>
-        <img src="docs/diagrams/img/casos_uso.jpg" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <img src="docs/diagrams/img/casos_uso.jpg?v=1" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
         <a href="docs/diagrams/DIAGRAMA%20DE%20CASOS%20DE%20USO%20COMPLETO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
       <td align="center">
         <strong>Diagrama C4</strong><br>
-        <img src="docs/diagrams/img/diagrama_c4.jpg" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <img src="docs/diagrams/img/diagrama_c4.jpg?v=1" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
         <a href="docs/diagrams/DIAGRAMA%20C4.JPG" target="_blank">📄 Ver imagen original</a>
       </td>
     </tr>
     <tr>
       <td align="center">
         <strong>Clases UML</strong><br>
-        <img src="docs/diagrams/img/diagrama_clases.jpg" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <img src="docs/diagrams/img/diagrama_clases.jpg?v=1" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
         <a href="docs/diagrams/DIAGRAMA%20DE%20CLASES%20COMPLETO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
       <td align="center">
         <strong>Esquema BD</strong><br>
-        <img src="docs/diagrams/img/esquema_bd.jpg" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <img src="docs/diagrams/img/esquema_bd.jpg?v=1" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
         <a href="docs/diagrams/ESQUEMA%20DE%20LA%20BD%20ORDENADO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
     </tr>
     <tr>
       <td align="center">
         <strong>Modelo ER</strong><br>
-        <img src="docs/diagrams/img/modelo_er.jpg" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <img src="docs/diagrams/img/modelo_er.jpg?v=1" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
         <a href="docs/diagrams/MODELO%20ER%20ORDENADO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
     </tr>
