@@ -30,9 +30,10 @@ Patrones GoF: Singleton, Factory Method, Adapter, Observer, Repository, Service 
 ├── tests/                         # PHPUnit (Pruebas unitarias y de integración)
 ├── resources/views/emails/        # Plantillas para notificaciones por correo
 └── bootstrap/                     # Configuración de la aplicación (Laravel 11)
-
+```
 
 Instalación y Configuración
+
 Clonar el repositorio
 
 ```bash
@@ -98,7 +99,6 @@ Ejecutar la suite de pruebas unitarias y de integración:
 ```bash
 php artisan test
 ```
-
 
 Licencia
 MIT License. Ver archivo LICENSE
