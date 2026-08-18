@@ -1,5 +1,12 @@
 # SIGPAZ - Sistema Full-Stack (Laravel + Angular)
 
+<p align="center">
+  <img src="docs/media/sigpaz-demo.gif" 
+       width="700" 
+       style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"
+       alt="Demostración del sistema SIGPAZ en funcionamiento">
+</p>
+
 Sistema full-stack para la gestión de casos y control de asistencia del personal en el Módulo de Justicia de Paz Comunal "Circuito: Fuerza Revolucionaria".
 
 ## Stack Tecnológico
@@ -35,6 +42,14 @@ Sistema full-stack para la gestión de casos y control de asistencia del persona
 ├── resources/views/emails/        # Plantillas para notificaciones por correo
 └── bootstrap/                     # Configuración de la aplicación
 ```
+
+## Documentación y Manuales
+
+Puedes consultar los manuales del sistema en la carpeta `docs/manuals/`:
+
+- [📄 Manual de Usuario](docs/manuals/MANUAL%20DE%20USUARIO%20FINAL.pdf)
+- [📄 Manual Técnico](docs/manuals/MANUAL%20TECNCO%20FINAL.pdf)
+
 
 ## Instalación y Configuración
 
@@ -82,6 +97,43 @@ Ejecutar el servidor de desarrollo
 ```bash
 php artisan serve
 ```
+
+## Diagramas del Sistema
+
+<p align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <strong>C4 - Contexto</strong><br>
+        <img src="docs/diagrams/DIAGRAMA%20C4.JPG" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
+      </td>
+      <td align="center">
+        <strong>UML - Actividades</strong><br>
+        <img src="docs/diagrams/DIAGRAMA%20DE%20ACTIVIDADES%20ORDEN...html" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <strong>UML - Clases</strong><br>
+        <img src="docs/diagrams/DIAGRAMA%20DE%20CLASES%20COMPLETO.html" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
+      </td>
+      <td align="center">
+        <strong>MER - Modelo ER</strong><br>
+        <img src="docs/diagrams/MODELO%20ER%20ORDENADO.html" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <strong>MER - Esquema BD</strong><br>
+        <img src="docs/diagrams/ESQUEMA%20DE%20LA%20BD%20ORDENADO.html" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
+      </td>
+      <td align="center">
+        <strong>Casos de Uso</strong><br>
+        <img src="docs/diagrams/DIAGRAMAS%20DE%20CASOS%20D%20EUSO%20OR...html" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
+      </td>
+    </tr>
+  </table>
+</p>
 
 
 ## Características Clave
