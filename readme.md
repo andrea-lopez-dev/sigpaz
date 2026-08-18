@@ -1,7 +1,7 @@
 # SIGPAZ - Sistema Full-Stack (Laravel + Angular)
 
 <p align="center">
-  <img src="docs/media/demo-sigpaz.gif" 
+  <img src="docs/media/sigpaz-demo.gif" 
        alt="Demostración del sistema SIGPAZ" 
        width="700" 
        style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
@@ -98,34 +98,38 @@ php artisan serve
 
 ## Diagramas del Sistema
 
+## Diagramas del Sistema
+
 <p align="center">
   <table>
     <tr>
       <td align="center">
-        <strong>Diagrama de Casos de Uso</strong><br>
-        <img src="docs/diagrams/diagrama_casos_uso.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <strong>Casos de Uso</strong><br>
+        <img src="docs/diagrams/casos_uso.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
         <a href="docs/diagrams/DIAGRAMA%20DE%20CASOS%20DE%20USO%20COMPLETO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
       <td align="center">
-        <strong>Esquema de Base de Datos</strong><br>
-        <img src="docs/diagrams/esquema_bd.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <strong>Esquema BD</strong><br>
+        <img src="docs/diagrams/esquema_bd.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
         <a href="docs/diagrams/ESQUEMA%20DE%20LA%20BD%20ORDENADO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
     </tr>
     <tr>
       <td align="center">
-        <strong>Modelo Entidad-Relación (MER)</strong><br>
-        <img src="docs/diagrams/modelo_er.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <strong>Modelo ER</strong><br>
+        <img src="docs/diagrams/modelo_er.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
         <a href="docs/diagrams/MODELO%20ER%20ORDENADO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
       <td align="center">
-        <strong>Diagrama de Clases UML</strong><br>
-        <img src="docs/diagrams/diagrama_clases.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <strong>Clases UML</strong><br>
+        <img src="docs/diagrams/clases.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
         <a href="docs/diagrams/DIAGRAMA%20DE%20CLASES%20COMPLETO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
     </tr>
   </table>
 </p>
+
+> 🖱️ **Nota:** Los archivos HTML originales son interactivos (zoom, arrastre, enlaces). Ábrelos en tu navegador para explorarlos.
 
 > 🖱️ **Nota:** Los archivos HTML originales de los diagramas son **interactivos**. Si los descargas y los abres en tu navegador, podrás hacer zoom, arrastrar los elementos, hacer clic en enlaces y explorar los diagramas con todas sus funcionalidades originales de Astah. Puedes encontrarlos en la carpeta `docs/diagrams/` del repositorio.
 
