@@ -98,11 +98,11 @@ php artisan serve
 
 ## Diagramas del Sistema
 
-Puedes consultar todos los diagramas del sistema en el siguiente archivo PDF:
+Puedes visualizar todos los diagramas del sistema directamente en tu navegador sin necesidad de descargarlos:
 
-- 📄 [Descargar diagramas.pdf](/sigpaz/docs/diagrams/diagramas.pdf)
+📄 [Visualizar diagramas.pdf](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/andrea-lopez-dev/sigpaz/main/docs/diagrams/diagramas.pdf&embedded=true)
 
-Para explorar las versiones interactivas de algunos diagramas, haz clic en los enlaces a continuación:
+Para explorar las versiones interactivas de cada diagrama, haz clic en los siguientes enlaces:
 
 - 🔗 [Casos de Uso (HTML interactivo)](/sigpaz/docs/diagrams/DIAGRAMA%20DE%20CASOS%20DE%20USO%20COMPLETO.html)
 - 🔗 [Clases UML (HTML interactivo)](/sigpaz/docs/diagrams/DIAGRAMA%20DE%20CLASES%20COMPLETO.html)
