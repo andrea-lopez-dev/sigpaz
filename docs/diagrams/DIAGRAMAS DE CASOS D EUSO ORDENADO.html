@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>SIGPAZ - 60 Casos de Uso · 4 Actores (Versión Exportable)</title>
+    <style>
+        :root {
+            --bg: #0f0f1a;
+            --bg2: #1a1b2a;
+            --bg3: #14151f;
+            --text: #cbd5ff;
+            --text2: #e2e2f0;
+            --border: #2a2b3a;
+            --actor-bg: #1e2a3a;
+            --actor-border: #facc15;
+            --actor-text: #facc15;
+            --uc-bg: #2a1e2a;
+            --uc-border: #a78bfa;
+            --uc-text: #e0e0f0;
+            --green: #10b981;
+            --assoc: #34d399;
+            --include: #a78bfa;
+            --extend: #facc15;
+            --shadow: rgba(0,0,0,0.4);
+            --card-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            --gradient: radial-gradient(circle at 20% 30%, #14151f, #0a0a12);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        .toolbar {
+            background: var(--bg2);
+            padding: 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            z-index: 20;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .title { color: var(--text); font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+        .title span { background: var(--green); width: 9px; height: 9px; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.4; transform: scale(0.8);} 100% { opacity: 1; transform: scale(1.2);} }
+        .controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        button {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 11px;
+        }
+        button:hover { background: var(--border); transform: translateY(-1px); }
+        button.primary { background: var(--green); color: white; border: none; }
+        .sidebar {
+            position: absolute;
+            top: 60px;
+            left: 12px;
+            bottom: 12px;
+            width: 270px;
+            background: var(--bg3);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 30;
+            box-shadow: var(--card-shadow);
+        }
+        .sidebar.hidden { display: none; }
+        .search-box {
+            background: var(--bg);
+            border-radius: 30px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--border);
+        }
+        .search-box input { background: transparent; border: none; color: var(--text); width: 100%; outline: none; font-size: 0.8rem; }
+        .element-list { overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 5px; }
+        .element-list::-webkit-scrollbar { width: 5px; }
+        .element-list::-webkit-scrollbar-track { background: var(--bg); border-radius: 10px; }
+        .element-list::-webkit-scrollbar-thumb { background: var(--green); border-radius: 10px; }
+        .list-item {
+            background: var(--bg2);
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text);
+            border-left: 3px solid var(--green);
+        }
+        .list-item:hover { background: var(--border); transform: translateX(3px); }
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 52px);
+            overflow: auto;
+            background: var(--gradient);
+        }
+        .canvas-inner {
+            position: relative;
+            width: 14000px;
+            height: 12000px;
+            background: transparent;
+            transform-origin: 0 0;
+            transition: transform 0.2s ease;
+        }
+        .actor-card {
+            position: absolute;
+            background: var(--actor-bg);
+            border-radius: 50px;
+            border: 3px solid var(--actor-border);
+            box-shadow: var(--card-shadow);
+            cursor: grab;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            min-width: 150px;
+        }
+        .actor-card:active { cursor: grabbing; }
+        .actor-icon { font-size: 2.5rem; }
+        .actor-name { font-weight: bold; font-size: 12px; margin-top: 6px; color: var(--actor-text); text-align: center; }
+        .actor-role { font-size: 9px; color: var(--text2); margin-top: 2px; font-style: italic; }
+        .usecase-card {
+            position: absolute;
+            background: var(--uc-bg);
+            border: 2px solid var(--uc-border);
+            border-radius: 50px / 35px;
+            box-shadow: var(--card-shadow);
+            cursor: grab;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 12px 20px;
+            min-width: 190px;
+            max-width: 300px;
+            min-height: 60px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--uc-text);
+            word-break: break-word;
+            gap: 5px;
+        }
+        .usecase-card:active { cursor: grabbing; }
+        .uc-prefix { font-weight: bold; color: var(--actor-text); background: var(--bg); padding: 2px 7px; border-radius: 15px; font-size: 9px; flex-shrink: 0; }
+        .relation-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4;
+        }
+        .assoc-line { stroke: var(--assoc); stroke-width: 2; fill: none; }
+        .include-line { stroke: var(--include); stroke-width: 2; stroke-dasharray: 8 4; fill: none; }
+        .extend-line { stroke: var(--extend); stroke-width: 2; stroke-dasharray: 4 4; fill: none; }
+        .stereotype-text { font-size: 8px; fill: var(--extend); font-style: italic; paint-order: stroke; stroke: var(--bg); stroke-width: 1px; }
+        .detail-panel {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            width: 440px;
+            max-height: 70vh;
+            overflow-y: auto;
+            background: var(--bg3);
+            border-radius: 16px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            color: var(--text);
+            z-index: 40;
+            font-size: 11px;
+            box-shadow: var(--card-shadow);
+        }
+        .detail-panel h4 { margin-bottom: 6px; color: var(--green); }
+        .close-panel { float: right; background: none; border: none; padding: 0; font-size: 16px; color: var(--text2); cursor: pointer; }
+        .status {
+            position: fixed;
+            bottom: 12px;
+            left: 16px;
+            background: var(--bg3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 10px;
+            color: var(--text2);
+            z-index: 35;
+            border: 1px solid var(--border);
+            font-family: monospace;
+        }
+        .legend {
+            position: fixed;
+            top: 60px;
+            right: 16px;
+            background: var(--bg3);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 9px;
+            color: var(--text2);
+            z-index: 35;
+            border: 1px solid var(--border);
+            pointer-events: none;
+        }
+        @media (max-width: 700px) {
+            .usecase-card { min-width: 140px; font-size: 9px; }
+            .actor-card { min-width: 100px; }
+            .detail-panel { width: 90%; right: 5%; }
+            .legend { display: none; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+<div class="toolbar">
+    <div class="title"><span></span> SIGPAZ · 60 Casos de Uso · 4 Actores</div>
+    <div class="controls">
+        <button class="theme-btn active" onclick="setTheme('dark')" title="Modo Oscuro">🌙</button>
+        <button class="theme-btn" onclick="setTheme('light')" title="Modo Claro">☀️</button>
+        <button class="theme-btn" onclick="setTheme('neon')" title="Modo Neón">💜</button>
+        <button id="arrangeByModuleBtn" class="primary">📦 Módulos</button>
+        <button id="arrangeByIdBtn" class="primary">🔢 ID</button>
+        <button id="arrangeTopologicalBtn" class="primary">📊 Topológico</button>
+        <button id="resetViewBtn" class="primary">⟳ Centrar</button>
+        <button id="toggleSidebarBtn">📋</button>
+        <button id="zoomInBtn" class="primary" style="background: #2980b9;">➕ Zoom In</button>
+        <button id="zoomOutBtn" class="primary" style="background: #2980b9;">➖ Zoom Out</button>
+        <button id="exportJpgBtn" class="primary" style="background: #e74c3c;">🖼️ Exportar JPG</button>
+    </div>
+</div>
+<div class="sidebar" id="sidebar">
+    <div class="search-box">🔍 <input type="text" id="searchElement" placeholder="Buscar actor o caso..."></div>
+    <div class="element-list" id="elementList"></div>
+</div>
+<div class="canvas-container" id="canvasContainer">
+    <div class="canvas-inner" id="canvasInner">
+        <svg class="relation-svg" id="relationSvg"></svg>
+        <div id="diagramCanvas"></div>
+    </div>
+</div>
+<div class="detail-panel" id="detailPanel" style="display: none;">
+    <button class="close-panel" id="closeDetailBtn">✕</button>
+    <div id="detailContent"></div>
+</div>
+<div class="status" id="statusMsg">🖱️ Arrastra | Doble clic: detalle</div>
+<div class="legend">
+    ▬ Asociación &nbsp; ▬▬ «include» &nbsp; ▬▬ «extend»<br>
+    👤 Ciudadano: 2 · 🚔 Alguacil: 7 · 👨‍⚖️ Juez: 17 · 📋 Secretario: 60
+</div>
+
+<script>
+    // ==================================================================
+    // DATOS DEL MODELO
+    // ==================================================================
+    const actors = [
+        { name: "Ciudadano", icon: "👤", role: "Presencial - NO opera el sistema", pos: { x: 100, y: 200 }, color: "#34d399" },
+        { name: "Alguacil", icon: "🚔", role: "Notifica, verifica disponibilidad", pos: { x: 100, y: 800 }, color: "#f97316" },
+        { name: "Juez de Paz", icon: "👨‍⚖️", role: "Conciliación, votos, sentencias", pos: { x: 100, y: 1400 }, color: "#facc15" },
+        { name: "Secretario", icon: "📋", role: "ACCESO TOTAL al sistema", pos: { x: 100, y: 2000 }, color: "#60a5fa" }
+    ];
+
+    const useCasesRaw = [
+        { id:"UC1", name:"Acceder al Sistema (Index)", num:"C1", mod:"Autenticación", desc:"Pantalla de bienvenida y acceso inicial.", inc:["UC2"], ext:[], pos:{x:550,y:80} },
+        { id:"UC2", name:"Autenticarse (Login MFA)", num:"C2", mod:"Autenticación", desc:"Iniciar sesión con credenciales y MFA.", inc:["UC3","UC4"], ext:[], pos:{x:950,y:80} },
+        { id:"UC3", name:"Verificar Código MFA", num:"C3", mod:"Autenticación", desc:"Validar código de dos factores.", inc:[], ext:[], pos:{x:1350,y:80} },
+        { id:"UC4", name:"Solicitar Código OTP", num:"C4", mod:"Autenticación", desc:"Generar OTP para acciones críticas.", inc:[], ext:[], pos:{x:1750,y:80} },
+        { id:"UC5", name:"Recuperar Contraseña", num:"C5", mod:"Autenticación", desc:"Recuperar acceso con preguntas seguridad.", inc:["UC48"], ext:[], pos:{x:2150,y:80} },
+        { id:"UC6", name:"Registrar Persona", num:"C6", mod:"Personas", desc:"Registrar persona con datos cifrados.", inc:["UC7"], ext:[], pos:{x:550,y:200} },
+        { id:"UC7", name:"Validar Documento", num:"C7", mod:"Personas", desc:"Validar tipo y número de documento.", inc:[], ext:[], pos:{x:950,y:200} },
+        { id:"UC8", name:"Actualizar Datos Persona", num:"C8", mod:"Personas", desc:"Modificar datos con versionado.", inc:[], ext:[], pos:{x:1350,y:200} },
+        { id:"UC9", name:"Consultar Persona", num:"C9", mod:"Personas", desc:"Consultar con descifrado autorizado.", inc:[], ext:[], pos:{x:1750,y:200} },
+        { id:"UC10", name:"Gestionar Catálogos Personas", num:"C10", mod:"Personas", desc:"CRUD Género, EstadoCivil, TipoDoc.", inc:[], ext:[], pos:{x:2150,y:200} },
+        { id:"UC11", name:"Presentar Denuncia", num:"C11", mod:"Denuncias", desc:"Ciudadano presenta denuncia PRESENCIAL. Secretario registra.", inc:["UC12"], ext:[], pos:{x:550,y:340} },
+        { id:"UC12", name:"Registrar Denuncia en Sistema", num:"C12", mod:"Denuncias", desc:"Registro formal con QR y auditoría.", inc:["UC6"], ext:["UC13","UC14"], pos:{x:950,y:340} },
+        { id:"UC13", name:"Agregar Involucrados", num:"C13", mod:"Denuncias", desc:"Agregar personas con rol asignado.", inc:[], ext:[], pos:{x:1350,y:340} },
+        { id:"UC14", name:"Adjuntar Evidencias", num:"C14", mod:"Denuncias", desc:"Subir archivos (doc, foto, video).", inc:[], ext:[], pos:{x:1750,y:340} },
+        { id:"UC15", name:"Consultar Estado Denuncia", num:"C15", mod:"Denuncias", desc:"Ciudadano consulta PRESENCIAL. Secretario revisa sistema.", inc:[], ext:[], pos:{x:550,y:470} },
+        { id:"UC16", name:"Cambiar Estado Denuncia", num:"C16", mod:"Denuncias", desc:"Transición de estado con historial.", inc:["UC17"], ext:[], pos:{x:950,y:470} },
+        { id:"UC17", name:"Notificar Cambio Estado", num:"C17", mod:"Denuncias", desc:"Enviar notificación del cambio.", inc:["UC32"], ext:[], pos:{x:1350,y:470} },
+        { id:"UC18", name:"Derivar a Conciliación", num:"C18", mod:"Denuncias", desc:"Derivar denuncia a conciliación.", inc:["UC12"], ext:[], pos:{x:1750,y:470} },
+        { id:"UC19", name:"Iniciar Conciliación", num:"C19", mod:"Conciliación", desc:"Crear proceso desde denuncia.", inc:["UC20"], ext:[], pos:{x:550,y:610} },
+        { id:"UC20", name:"Asignar Conciliador", num:"C20", mod:"Conciliación", desc:"Asignar Juez de Paz al caso.", inc:[], ext:[], pos:{x:950,y:610} },
+        { id:"UC21", name:"Programar Audiencia", num:"C21", mod:"Conciliación", desc:"Agendar verificando disponibilidad.", inc:["UC22"], ext:[], pos:{x:1350,y:610} },
+        { id:"UC22", name:"Verificar Disponibilidad", num:"C22", mod:"Conciliación", desc:"Verificar sala, recursos, partes.", inc:[], ext:[], pos:{x:1750,y:610} },
+        { id:"UC23", name:"Registrar Voto Conciliación", num:"C23", mod:"Conciliación", desc:"Juez emite voto (máx 6 votos).", inc:[], ext:[], pos:{x:550,y:740} },
+        { id:"UC24", name:"Registrar Acta Conciliación", num:"C24", mod:"Conciliación", desc:"Levantar acta oficial del acuerdo.", inc:[], ext:["UC25"], pos:{x:950,y:740} },
+        { id:"UC25", name:"Ordenar Medida Cautelar", num:"C25", mod:"Medidas", desc:"Juez ordena medida con duración.", inc:[], ext:[], pos:{x:550,y:870} },
+        { id:"UC26", name:"Emitir Sentencia", num:"C26", mod:"Medidas", desc:"Juez emite sentencia o resolución.", inc:[], ext:["UC27"], pos:{x:950,y:870} },
+        { id:"UC27", name:"Remitir a Institución Externa", num:"C27", mod:"Medidas", desc:"Remitir caso a otra institución.", inc:["UC28"], ext:[], pos:{x:1350,y:870} },
+        { id:"UC28", name:"Registrar Remisión", num:"C28", mod:"Medidas", desc:"Documentar remisión con oficio.", inc:[], ext:[], pos:{x:1750,y:870} },
+        { id:"UC29", name:"Solicitar Préstamo Expediente", num:"C29", mod:"Expedientes", desc:"Funcionario solicita préstamo físico.", inc:[], ext:[], pos:{x:550,y:1010} },
+        { id:"UC30", name:"Registrar Devolución Expediente", num:"C30", mod:"Expedientes", desc:"Devolver y calcular retraso.", inc:[], ext:[], pos:{x:950,y:1010} },
+        { id:"UC31", name:"Gestionar Notificaciones", num:"C31", mod:"Notificaciones", desc:"Crear y gestionar notificaciones.", inc:["UC32"], ext:[], pos:{x:550,y:1140} },
+        { id:"UC32", name:"Enviar Notificación", num:"C32", mod:"Notificaciones", desc:"Alguacil envía notificación formal.", inc:[], ext:[], pos:{x:950,y:1140} },
+        { id:"UC33", name:"Gestionar Tipos Notificación", num:"C33", mod:"Notificaciones", desc:"CRUD de tipos de notificación.", inc:[], ext:[], pos:{x:1350,y:1140} },
+        { id:"UC34", name:"Registrar Personal", num:"C34", mod:"Personal", desc:"Alta de personal vinculando persona.", inc:["UC6"], ext:[], pos:{x:550,y:1280} },
+        { id:"UC35", name:"Gestionar Cargos", num:"C35", mod:"Personal", desc:"CRUD de cargos judiciales.", inc:[], ext:[], pos:{x:950,y:1280} },
+        { id:"UC36", name:"Gestionar Horarios", num:"C36", mod:"Personal", desc:"Definir horarios laborales.", inc:[], ext:[], pos:{x:1350,y:1280} },
+        { id:"UC37", name:"Registrar Asistencia", num:"C37", mod:"Personal", desc:"Marcar entrada/salida con cálculo.", inc:[], ext:[], pos:{x:550,y:1410} },
+        { id:"UC38", name:"Consultar Asistencia", num:"C38", mod:"Personal", desc:"Ver registros por personal/fecha.", inc:[], ext:[], pos:{x:950,y:1410} },
+        { id:"UC39", name:"Gestionar Usuarios Sistema", num:"C39", mod:"Usuarios", desc:"CRUD de usuarios del sistema.", inc:[], ext:["UC40"], pos:{x:550,y:1540} },
+        { id:"UC40", name:"Gestionar Roles y Permisos", num:"C40", mod:"Usuarios", desc:"RBAC: roles y permisos.", inc:[], ext:[], pos:{x:950,y:1540} },
+        { id:"UC41", name:"Iniciar Conversación Chatbot", num:"C41", mod:"Chatbot", desc:"Personal inicia sesión de chat.", inc:[], ext:[], pos:{x:550,y:1680} },
+        { id:"UC42", name:"Enviar Mensaje al Chatbot", num:"C42", mod:"Chatbot", desc:"Consulta con búsqueda semántica.", inc:["UC43","UC45"], ext:[], pos:{x:950,y:1680} },
+        { id:"UC43", name:"Buscar Base Conocimiento", num:"C43", mod:"Chatbot", desc:"Búsqueda semántica vectorial.", inc:[], ext:[], pos:{x:1350,y:1680} },
+        { id:"UC44", name:"Calificar Respuesta Chatbot", num:"C44", mod:"Chatbot", desc:"Puntuar 1-5 e indicar utilidad.", inc:[], ext:[], pos:{x:550,y:1810} },
+        { id:"UC45", name:"Usar Cache Semántico", num:"C45", mod:"Chatbot", desc:"Reutilizar respuestas cacheadas.", inc:[], ext:[], pos:{x:1750,y:1680} },
+        { id:"UC46", name:"Solicitar Código Maestro (Bot)", num:"C46", mod:"Chatbot", desc:"Solicitar OTP vía chatbot.", inc:["UC4"], ext:[], pos:{x:950,y:1810} },
+        { id:"UC47", name:"Gestionar Base Conocimiento", num:"C47", mod:"Chatbot", desc:"CRUD preguntas/respuestas (Admin).", inc:[], ext:[], pos:{x:1350,y:1810} },
+        { id:"UC48", name:"Gestionar Preguntas Seguridad", num:"C48", mod:"Admin", desc:"Configurar preguntas de seguridad.", inc:[], ext:[], pos:{x:550,y:1950} },
+        { id:"UC49", name:"Ejecutar Backup Sistema", num:"C49", mod:"Admin", desc:"Backup con compresión y encriptación.", inc:[], ext:[], pos:{x:950,y:1950} },
+        { id:"UC50", name:"Restaurar Backup", num:"C50", mod:"Admin", desc:"Restaurar desde backup verificado.", inc:["UC49"], ext:[], pos:{x:1350,y:1950} },
+        { id:"UC51", name:"Consultar Auditoría", num:"C51", mod:"Admin", desc:"Logs completos de transacciones.", inc:[], ext:[], pos:{x:550,y:2080} },
+        { id:"UC52", name:"Generar Reportes", num:"C52", mod:"Admin", desc:"Reportes estadísticos y exportación.", inc:[], ext:[], pos:{x:950,y:2080} },
+        { id:"UC53", name:"Acceder al Dashboard", num:"C53", mod:"Funcionales", desc:"Panel de control personalizado.", inc:[], ext:[], pos:{x:550,y:2220} },
+        { id:"UC54", name:"Consultar Estadísticas", num:"C54", mod:"Funcionales", desc:"Tendencias y gráficos del sistema.", inc:[], ext:[], pos:{x:950,y:2220} },
+        { id:"UC55", name:"Consultar Manual Técnico", num:"C55", mod:"Funcionales", desc:"Documentación de usuario del sistema.", inc:[], ext:[], pos:{x:1350,y:2220} },
+        { id:"UC56", name:"Visualizar Manual Audiovisual", num:"C56", mod:"Funcionales", desc:"Videos tutoriales del sistema.", inc:[], ext:[], pos:{x:1750,y:2220} },
+        { id:"UC57", name:"Cambiar a Modo Oscuro", num:"C57", mod:"Personalización", desc:"Activar tema oscuro.", inc:[], ext:[], pos:{x:550,y:2360} },
+        { id:"UC58", name:"Cambiar a Modo Claro", num:"C58", mod:"Personalización", desc:"Activar tema claro.", inc:[], ext:[], pos:{x:950,y:2360} },
+        { id:"UC59", name:"Cambiar a Modo Neón", num:"C59", mod:"Personalización", desc:"Activar tema neón.", inc:[], ext:[], pos:{x:1350,y:2360} },
+        { id:"UC60", name:"Personalizar Tema", num:"C60", mod:"Personalización", desc:"Configuración avanzada de colores.", inc:[], ext:["UC57","UC58","UC59"], pos:{x:1750,y:2360} }
+    ];
+
+    let useCasesData = [...useCasesRaw];
+    let currentZoom = 1;
+
+    // ===== ASOCIACIONES Y DEPENDENCIAS =====
+    const actorAssociations = [];
+    ["UC11","UC15"].forEach(id => actorAssociations.push({ actor: "Ciudadano", ucId: id }));
+    ["UC2","UC21","UC22","UC31","UC32","UC55","UC56"].forEach(id => actorAssociations.push({ actor: "Alguacil", ucId: id }));
+    ["UC2","UC19","UC20","UC23","UC24","UC25","UC26","UC27","UC28","UC41","UC42","UC43","UC44","UC45","UC53","UC54","UC55","UC56"].forEach(id => actorAssociations.push({ actor: "Juez de Paz", ucId: id }));
+    useCasesData.forEach(uc => actorAssociations.push({ actor: "Secretario", ucId: uc.id }));
+
+    const dependencies = [
+        {from:"UC1",to:"UC2",type:"include",label:"«include»"},
+        {from:"UC2",to:"UC3",type:"include",label:"«include»"},
+        {from:"UC2",to:"UC4",type:"include",label:"«include»"},
+        {from:"UC5",to:"UC48",type:"include",label:"«include»"},
+        {from:"UC6",to:"UC7",type:"include",label:"«include»"},
+        {from:"UC11",to:"UC12",type:"include",label:"«include»"},
+        {from:"UC12",to:"UC6",type:"include",label:"«include»"},
+        {from:"UC12",to:"UC13",type:"extend",label:"«extend»"},
+        {from:"UC12",to:"UC14",type:"extend",label:"«extend»"},
+        {from:"UC16",to:"UC17",type:"include",label:"«include»"},
+        {from:"UC17",to:"UC32",type:"include",label:"«include»"},
+        {from:"UC18",to:"UC12",type:"include",label:"«include»"},
+        {from:"UC19",to:"UC20",type:"include",label:"«include»"},
+        {from:"UC21",to:"UC22",type:"include",label:"«include»"},
+        {from:"UC24",to:"UC25",type:"extend",label:"«extend»"},
+        {from:"UC26",to:"UC27",type:"extend",label:"«extend»"},
+        {from:"UC27",to:"UC28",type:"include",label:"«include»"},
+        {from:"UC31",to:"UC32",type:"include",label:"«include»"},
+        {from:"UC34",to:"UC6",type:"include",label:"«include»"},
+        {from:"UC39",to:"UC40",type:"extend",label:"«extend»"},
+        {from:"UC42",to:"UC43",type:"include",label:"«include»"},
+        {from:"UC42",to:"UC45",type:"include",label:"«include»"},
+        {from:"UC46",to:"UC4",type:"include",label:"«include»"},
+        {from:"UC50",to:"UC49",type:"include",label:"«include»"},
+        {from:"UC60",to:"UC57",type:"extend",label:"«extend»"},
+        {from:"UC60",to:"UC58",type:"extend",label:"«extend»"},
+        {from:"UC60",to:"UC59",type:"extend",label:"«extend»"}
+    ];
+
+    function getAid(n) { return `actor-${n.replace(/\s/g,'').replace(/[()]/g,'')}`; }
+    function getUid(n) { return `uc-${n}`; }
+
+    function setTheme(t) {
+        document.body.setAttribute('data-theme', t);
+        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector(`.theme-btn[onclick="setTheme('${t}')"]`)?.classList.add('active');
+        updateAllRelations();
+    }
+
+    function renderElementList(f="") {
+        const c = document.getElementById('elementList');
+        c.innerHTML = "";
+        const all = [
+            ...actors.map(a=>({n:`${a.icon} ${a.name}`,k:"actor",i:a.icon})),
+            ...useCasesData.map(u=>({n:`${u.num}: ${u.name} [${u.mod}]`,k:"usecase",id:u.id}))
+        ];
+        all.filter(e=>e.n.toLowerCase().includes(f.toLowerCase())).forEach(e=>{
+            const d=document.createElement('div');
+            d.className='list-item';
+            d.innerHTML=`<span>${e.k==='actor'?e.i:'⚪'}</span> ${e.n}`;
+            d.onclick=()=>{
+                const id=e.k==='actor'?getAid(e.n.replace(/^.\s/,'')):getUid(e.id);
+                const card=document.getElementById(id);
+                if(card){card.scrollIntoView({behavior:'smooth',block:'center'});selectElement(id);}
+            };
+            c.appendChild(d);
+        });
+    }
+    function selectElement(id) {
+        document.querySelectorAll('.actor-card,.usecase-card').forEach(e=>e.classList.remove('selected'));
+        document.getElementById(id)?.classList.add('selected');
+    }
+
+    // Drag
+    let da=false,ce=null,sx,sy,ol,ot,td;
+    function md(e,d,t) {
+        e.addEventListener('mousedown',ev=>{
+            if(ev.target.closest('.detail-panel'))return;
+            da=true;ce=e;td={d,t};sx=ev.clientX;sy=ev.clientY;
+            ol=parseFloat(e.style.left);ot=parseFloat(e.style.top);
+            e.style.zIndex='100';ev.preventDefault();
+        });
+    }
+    document.addEventListener('mousemove',e=>{
+        if(!da||!ce)return;
+        const dx=e.clientX-sx,dy=e.clientY-sy;
+        let nl=Math.max(-300,Math.min(ol+dx,13500)),nt=Math.max(-300,Math.min(ot+dy,11500));
+        ce.style.left=nl+'px';ce.style.top=nt+'px';
+        td.d.pos={x:nl,y:nt};
+        updateAllRelations(); // Redibujar líneas en tiempo real
+    });
+    document.addEventListener('mouseup',()=>{da=false;if(ce){ce.style.zIndex='';ce=null;}td=null;});
+
+    function renderDiagram() {
+        const c=document.getElementById('diagramCanvas');
+        c.innerHTML='';
+        actors.forEach(a=>{
+            const d=document.createElement('div');
+            d.className='actor-card';d.id=getAid(a.name);
+            d.style.left=a.pos.x+'px';d.style.top=a.pos.y+'px';
+            d.innerHTML=`<div class="actor-icon">${a.icon}</div><div class="actor-name">${a.name}</div><div class="actor-role">${a.role}</div>`;
+            md(d,a,'actor');
+            d.addEventListener('dblclick',()=>showDetails(a.name));
+            c.appendChild(d);
+        });
+        useCasesData.forEach(u=>{
+            const d=document.createElement('div');
+            d.className='usecase-card';d.id=getUid(u.id);
+            d.style.left=u.pos.x+'px';d.style.top=u.pos.y+'px';
+            d.innerHTML=`<span class="uc-prefix">${u.num}</span> ${u.name}`;
+            md(d,u,'usecase');
+            d.addEventListener('dblclick',()=>showDetails(u.name));
+            c.appendChild(d);
+        });
+        updateAllRelations();
+    }
+
+    function updateAllRelations() {
+        const svg=document.getElementById('relationSvg');
+        svg.innerHTML='';
+        const ns="http://www.w3.org/2000/svg";
+        const cr=document.getElementById('canvasInner').getBoundingClientRect();
+        function dl(el1,el2,cls,color) {
+            const r1=el1.getBoundingClientRect(),r2=el2.getBoundingClientRect();
+            const x1=r1.left+r1.width/2-cr.left,y1=r1.top+r1.height/2-cr.top;
+            const x2=r2.left+r2.width/2-cr.left,y2=r2.top+r2.height/2-cr.top;
+            const l=document.createElementNS(ns,'line');
+            l.setAttribute('x1',x1);l.setAttribute('y1',y1);
+            l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+            l.setAttribute('stroke',color);
+            if(cls.includes('include'))l.setAttribute('stroke-dasharray','8 4');
+            else if(cls.includes('extend'))l.setAttribute('stroke-dasharray','4 4');
+            l.classList.add(cls.split(' ')[0]);svg.appendChild(l);
+            return {mx:(x1+x2)/2,my:(y1+y2)/2};
+        }
+        // Dibujar asociaciones actor -> caso de uso
+        actorAssociations.forEach(a=>{
+            const ae=document.getElementById(getAid(a.actor)),ue=document.getElementById(getUid(a.ucId));
+            if(ae&&ue) dl(ae,ue,'assoc-line',getComputedStyle(document.body).getPropertyValue('--assoc').trim());
+        });
+        // Dibujar dependencias entre casos de uso
+        dependencies.forEach(d=>{
+            const fe=document.getElementById(getUid(d.from)),te=document.getElementById(getUid(d.to));
+            if(fe&&te){
+                const cls=d.type==='include'?'include-line':'extend-line';
+                const col=getComputedStyle(document.body).getPropertyValue(d.type==='include'?'--include':'--extend').trim();
+                const m=dl(fe,te,cls,col);
+                const t=document.createElementNS(ns,'text');
+                t.setAttribute('x',m.mx);t.setAttribute('y',m.my-8);
+                t.textContent=d.label;t.classList.add('stereotype-text');
+                svg.appendChild(t);
+            }
+        });
+    }
+
+    function showDetails(n) {
+        const a=actors.find(x=>x.name===n);
+        const u=useCasesData.find(x=>x.name===n);
+        let h=`<h4>📌 ${n}</h4>`;
+        if(a){
+            h+=`<p><strong>Rol:</strong> ${a.name}</p>`;
+            h+=`<p><em>${a.role}</em></p>`;
+            const ucs=actorAssociations.filter(x=>x.actor===a.name).map(x=>x.ucId);
+            h+=`<p><strong>Casos asignados (${ucs.length}):</strong></p>`;
+            h+=`<p style="font-size:10px;">${ucs.map(id=>{const uu=useCasesData.find(x=>x.id===id);return uu?`${uu.num}: ${uu.name}`:id;}).join('<br>')}</p>`;
+        }else if(u){
+            h+=`<p><strong>${u.num} - ${u.name}</strong></p>`;
+            h+=`<p>📦 Módulo: ${u.mod}</p>`;
+            h+=`<p>📖 ${u.desc}</p>`;
+            const incs=dependencies.filter(x=>x.from===u.id&&x.type==='include');
+            const exts=dependencies.filter(x=>x.from===u.id&&x.type==='extend');
+            const incBy=dependencies.filter(x=>x.to===u.id&&x.type==='include');
+            const extBy=dependencies.filter(x=>x.to===u.id&&x.type==='extend');
+            if(incs.length)h+=`<p>🔗 Include: ${incs.map(x=>x.to).join(', ')}</p>`;
+            if(exts.length)h+=`<p>🧩 Extend: ${exts.map(x=>x.to).join(', ')}</p>`;
+            if(incBy.length)h+=`<p>⬅️ Incluido por: ${incBy.map(x=>x.from).join(', ')}</p>`;
+            if(extBy.length)h+=`<p>⬅️ Extendido por: ${extBy.map(x=>x.from).join(', ')}</p>`;
+            const acts=actorAssociations.filter(x=>x.ucId===u.id).map(x=>x.actor);
+            h+=`<p><strong>Actores autorizados:</strong> ${acts.join(', ')||'Ninguno'}</p>`;
+            if(u.id==="UC11"||u.id==="UC15")h+=`<p style="color:#facc15;">⚠️ Ciudadano interactúa PRESENCIALMENTE. El Secretario opera el sistema.</p>`;
+        }
+        document.getElementById('detailContent').innerHTML=h;
+        document.getElementById('detailPanel').style.display='block';
+    }
+
+    // ==========================================
+    // ZOOM
+    // ==========================================
+    function applyZoom() {
+        const inner = document.getElementById('canvasInner');
+        inner.style.transform = `scale(${currentZoom})`;
+        inner.style.transformOrigin = '0 0';
+        // No ajustamos el tamaño físico para mantener las coordenadas relativas correctas
+    }
+
+    document.getElementById('zoomInBtn').addEventListener('click', function() {
+        currentZoom = Math.min(2, currentZoom + 0.2);
+        applyZoom();
+    });
+
+    document.getElementById('zoomOutBtn').addEventListener('click', function() {
+        currentZoom = Math.max(0.5, currentZoom - 0.2);
+        applyZoom();
+    });
+
+    // ==========================================
+    // RESET VIEW
+    // ==========================================
+    function resetView() {
+        currentZoom = 1;
+        applyZoom();
+        const c = document.getElementById('canvasContainer');
+        let mx=Infinity,my=Infinity,Mx=-Infinity,My=-Infinity;
+        document.querySelectorAll('.actor-card,.usecase-card').forEach(e=>{
+            const l=parseFloat(e.style.left),t=parseFloat(e.style.top);
+            mx=Math.min(mx,l);my=Math.min(my,t);Mx=Math.max(Mx,l+e.offsetWidth);My=Math.max(My,t+e.offsetHeight);
+        });
+        if(mx===Infinity)return;
+        c.scrollTo({left:Math.max(0,mx-(c.clientWidth-(Mx-mx))/2),top:Math.max(0,my-(c.clientHeight-(My-my))/2),behavior:'smooth'});
+    }
+
+    // ==========================================
+    // EXPORTACIÓN A JPG (NUEVO MÉTODO)
+    // ==========================================
+    document.getElementById('exportJpgBtn').addEventListener('click', function() {
+        // Crear un canvas temporal del tamaño del diagrama
+        const width = 14000;
+        const height = 12000;
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+
+        // Fondo
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg').trim() || '#0f0f1a';
+        ctx.fillRect(0, 0, width, height);
+
+        // Dibujar líneas (asociaciones y dependencias)
+        // Necesitamos obtener las posiciones absolutas de los elementos
+        // Para simplificar, asumimos que los elementos están en las posiciones definidas en el objeto useCasesData y actors
+        // NOTA: En un escenario real, se deberían obtener las posiciones actuales de los elementos DOM.
+        // Aquí usamos las posiciones guardadas en los objetos de datos.
+        
+        // Dibujar dependencias (include/extend)
+        dependencies.forEach(d => {
+            const fromUC = useCasesData.find(u => u.id === d.from);
+            const toUC = useCasesData.find(u => u.id === d.to);
+            if (fromUC && toUC) {
+                const x1 = fromUC.pos.x + 100; // Aproximación del centro del elemento
+                const y1 = fromUC.pos.y + 30;
+                const x2 = toUC.pos.x + 100;
+                const y2 = toUC.pos.y + 30;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.strokeStyle = d.type === 'include' ? '#a78bfa' : '#facc15';
+                ctx.lineWidth = 2;
+                ctx.setLineDash(d.type === 'include' ? [8, 4] : [4, 4]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                // Texto de la etiqueta
+                ctx.fillStyle = '#facc15';
+                ctx.font = 'italic 20px sans-serif';
+                ctx.fillText(d.label, (x1+x2)/2 - 30, (y1+y2)/2 - 10);
+            }
+        });
+
+        // Dibujar asociaciones actor -> caso de uso
+        actorAssociations.forEach(a => {
+            const actor = actors.find(act => act.name === a.actor);
+            const uc = useCasesData.find(u => u.id === a.ucId);
+            if (actor && uc) {
+                const x1 = actor.pos.x + 75;
+                const y1 = actor.pos.y + 30;
+                const x2 = uc.pos.x + 100;
+                const y2 = uc.pos.y + 30;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.strokeStyle = '#34d399';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        });
+
+        // Dibujar actores
+        actors.forEach(a => {
+            ctx.fillStyle = '#1e2a3a';
+            ctx.strokeStyle = '#facc15';
+            ctx.lineWidth = 3;
+            // Redondear esquinas
+            const x = a.pos.x;
+            const y = a.pos.y;
+            const w = 150;
+            const h = 80;
+            ctx.beginPath();
+            ctx.moveTo(x + 20, y);
+            ctx.lineTo(x + w - 20, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + 20);
+            ctx.lineTo(x + w, y + h - 20);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - 20, y + h);
+            ctx.lineTo(x + 20, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - 20);
+            ctx.lineTo(x, y + 20);
+            ctx.quadraticCurveTo(x, y, x + 20, y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = '#facc15';
+            ctx.font = '40px sans-serif';
+            ctx.fillText(a.icon, x + 20, y + 50);
+            ctx.fillStyle = '#facc15';
+            ctx.font = '20px sans-serif';
+            ctx.fillText(a.name, x + 70, y + 55);
+            ctx.fillStyle = '#e2e2f0';
+            ctx.font = '14px sans-serif';
+            ctx.fillText(a.role, x + 20, y + 75);
+        });
+
+        // Dibujar casos de uso
+        useCasesData.forEach(u => {
+            ctx.fillStyle = '#2a1e2a';
+            ctx.strokeStyle = '#a78bfa';
+            ctx.lineWidth = 2;
+            const x = u.pos.x;
+            const y = u.pos.y;
+            const w = 190;
+            const h = 60;
+            // Óvalo
+            ctx.beginPath();
+            ctx.ellipse(x + w/2, y + h/2, w/2, h/2, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#e0e0f0';
+            ctx.font = '20px sans-serif';
+            ctx.fillText(u.num + ' ' + u.name, x + 10, y + 35);
+        });
+
+        // Convertir a JPG y descargar
+        const link = document.createElement('a');
+        link.download = 'SIGPAZ_Diagrama_Casos_Uso.jpg';
+        link.href = canvas.toDataURL('image/jpeg', 0.95);
+        link.click();
+    });
+
+    // ==========================================
+    // ORDENAMIENTOS
+    // ==========================================
+    function arrangeByModule() {
+        const mods={};
+        useCasesData.forEach(u=>{if(!mods[u.mod])mods[u.mod]=[];mods[u.mod].push(u);});
+        let gy=150;
+        for(let[m,ucs]of Object.entries(mods)){
+            ucs.forEach((u,i)=>{u.pos={x:550+(i%5)*380,y:gy+Math.floor(i/5)*160};});
+            gy+=Math.ceil(ucs.length/5)*160+30;
+        }
+        actors.forEach((a,i)=>{a.pos={x:100,y:200+i*600};});
+        renderDiagram();
+        setTimeout(()=>resetView(),50);
+    }
+    function arrangeById() {
+        useCasesData.sort((a,b)=>parseInt(a.num.substring(1))-parseInt(b.num.substring(1)));
+        useCasesData.forEach((u,i)=>{u.pos={x:550+(i%5)*380,y:150+Math.floor(i/5)*160};});
+        actors.forEach((a,i)=>{a.pos={x:100,y:200+i*600};});
+        renderDiagram();
+        setTimeout(()=>resetView(),50);
+    }
+    function arrangeTopological() {
+        const g=new Map(),ind=new Map();
+        useCasesData.forEach(u=>{g.set(u.id,[]);ind.set(u.id,0);});
+        dependencies.forEach(d=>{g.get(d.from).push(d.to);ind.set(d.to,ind.get(d.to)+1);});
+        const q=[],lv=new Map();
+        useCasesData.forEach(u=>{if(ind.get(u.id)===0)q.push(u.id);});
+        let cl=0;
+        while(q.length){let sz=q.length;for(let i=0;i<sz;i++){const n=q.shift();lv.set(n,cl);g.get(n).forEach(nn=>{ind.set(nn,ind.get(nn)-1);if(ind.get(nn)===0)q.push(nn);});}cl++;}
+        useCasesData.forEach(u=>{if(!lv.has(u.id))lv.set(u.id,0);});
+        const lg=new Map();
+        useCasesData.forEach(u=>{const l=lv.get(u.id);if(!lg.has(l))lg.set(l,[]);lg.get(l).push(u);});
+        let gy=150;
+        Array.from(lg.keys()).sort((a,b)=>a-b).forEach(l=>{lg.get(l).forEach((u,i)=>{u.pos={x:550+(i%5)*380,y:gy+Math.floor(i/5)*160};});gy+=Math.ceil(lg.get(l).length/5)*160;});
+        actors.forEach((a,i)=>{a.pos={x:100,y:200+i*600};});
+        renderDiagram();
+        setTimeout(()=>resetView(),50);
+    }
+
+    document.getElementById('arrangeByModuleBtn').addEventListener('click',arrangeByModule);
+    document.getElementById('arrangeByIdBtn').addEventListener('click',arrangeById);
+    document.getElementById('arrangeTopologicalBtn').addEventListener('click',arrangeTopological);
+    document.getElementById('resetViewBtn').addEventListener('click',resetView);
+    document.getElementById('toggleSidebarBtn').addEventListener('click',()=>{
+        document.getElementById('sidebar').classList.toggle('hidden');
+    });
+    document.getElementById('closeDetailBtn').addEventListener('click',()=>document.getElementById('detailPanel').style.display='none');
+    document.getElementById('searchElement').addEventListener('input',e=>renderElementList(e.target.value));
+
+    renderElementList();
+    renderDiagram();
+    setTimeout(()=>arrangeByModule(),100);
+    window.addEventListener('resize',()=>updateAllRelations());
+    document.getElementById('canvasContainer').addEventListener('scroll',()=>updateAllRelations());
+</script>
+</body>
+</html>
