@@ -98,38 +98,35 @@ php artisan serve
 
 ## Diagramas del Sistema
 
-## Diagramas del Sistema
-
 <p align="center">
   <table>
     <tr>
       <td align="center">
         <strong>Casos de Uso</strong><br>
-        <img src="docs/diagrams/casos_uso.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <img src="docs/diagrams/img/casos_uso.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
         <a href="docs/diagrams/DIAGRAMA%20DE%20CASOS%20DE%20USO%20COMPLETO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
       <td align="center">
-        <strong>Esquema BD</strong><br>
-        <img src="docs/diagrams/esquema_bd.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
-        <a href="docs/diagrams/ESQUEMA%20DE%20LA%20BD%20ORDENADO.html" target="_blank">📄 Ver HTML interactivo</a>
+        <strong>Clases UML</strong><br>
+        <img src="docs/diagrams/img/clases.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <a href="docs/diagrams/DIAGRAMA%20DE%20CLASES%20COMPLETO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
     </tr>
     <tr>
       <td align="center">
-        <strong>Modelo ER</strong><br>
-        <img src="docs/diagrams/modelo_er.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
-        <a href="docs/diagrams/MODELO%20ER%20ORDENADO.html" target="_blank">📄 Ver HTML interactivo</a>
+        <strong>Esquema BD</strong><br>
+        <img src="docs/diagrams/img/esquema_bd.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <a href="docs/diagrams/ESQUEMA%20DE%20LA%20BD%20ORDENADO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
       <td align="center">
-        <strong>Clases UML</strong><br>
-        <img src="docs/diagrams/clases.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
-        <a href="docs/diagrams/DIAGRAMA%20DE%20CLASES%20COMPLETO.html" target="_blank">📄 Ver HTML interactivo</a>
+        <strong>Modelo ER</strong><br>
+        <img src="docs/diagrams/img/modelo_er.jpg" width="250" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <a href="docs/diagrams/MODELO%20ER%20ORDENADO.html" target="_blank">📄 Ver HTML interactivo</a>
       </td>
     </tr>
   </table>
 </p>
 
-> 🖱️ **Nota:** Los archivos HTML originales son interactivos (zoom, arrastre, enlaces). Ábrelos en tu navegador para explorarlos.
 
 > 🖱️ **Nota:** Los archivos HTML originales de los diagramas son **interactivos**. Si los descargas y los abres en tu navegador, podrás hacer zoom, arrastrar los elementos, hacer clic en enlaces y explorar los diagramas con todas sus funcionalidades originales de Astah. Puedes encontrarlos en la carpeta `docs/diagrams/` del repositorio.
 
