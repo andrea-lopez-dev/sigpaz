@@ -98,43 +98,18 @@ php artisan serve
 
 ## Diagramas del Sistema
 
-<p align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <strong>Casos de Uso</strong><br>
-        <img src="/sigpaz/docs/diagrams/img/casos_uso.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
-        <a href="/sigpaz/docs/diagrams/DIAGRAMA%20DE%20CASOS%20DE%20USO%20COMPLETO.html" target="_blank">📄 Ver HTML interactivo</a>
-      </td>
-      <td align="center">
-        <strong>Diagrama C4</strong><br>
-        <img src="/sigpaz/docs/diagrams/img/diagrama_c4.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
-        <a href="/sigpaz/docs/diagrams/DIAGRAMA%20C4.JPG" target="_blank">📄 Ver imagen original</a>
-      </td>
-    </tr>
-    <tr>
-      <td align="center">
-        <strong>Clases UML</strong><br>
-        <img src="/sigpaz/docs/diagrams/img/diagrama_clases.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
-        <a href="/sigpaz/docs/diagrams/DIAGRAMA%20DE%20CLASES%20COMPLETO.html" target="_blank">📄 Ver HTML interactivo</a>
-      </td>
-      <td align="center">
-        <strong>Esquema BD</strong><br>
-        <img src="/sigpaz/docs/diagrams/img/esquema_bd.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
-        <a href="/sigpaz/docs/diagrams/ESQUEMA%20DE%20LA%20BD%20ORDENADO.html" target="_blank">📄 Ver HTML interactivo</a>
-      </td>
-    </tr>
-    <tr>
-      <td align="center">
-        <strong>Modelo ER</strong><br>
-        <img src="/sigpaz/docs/diagrams/img/modelo_er.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
-        <a href="/sigpaz/docs/diagrams/MODELO%20ER%20ORDENADO.html" target="_blank">📄 Ver HTML interactivo</a>
-      </td>
-    </tr>
-  </table>
-</p>
+Puedes consultar todos los diagramas del sistema en el siguiente archivo PDF:
 
-> 🖱️ **Nota:** Los archivos HTML originales de los diagramas son **interactivos**. Si los descargas y los abres en tu navegador, podrás hacer zoom, arrastrar los elementos, hacer clic en enlaces y explorar los diagramas con todas sus funcionalidades originales de Astah. Puedes encontrarlos en la carpeta `/sigpaz/docs/diagrams/` del repositorio.
+- 📄 [Descargar diagramas.pdf](/sigpaz/docs/diagrams/diagramas.pdf)
+
+Para explorar las versiones interactivas de algunos diagramas, haz clic en los enlaces a continuación:
+
+- 🔗 [Casos de Uso (HTML interactivo)](/sigpaz/docs/diagrams/DIAGRAMA%20DE%20CASOS%20DE%20USO%20COMPLETO.html)
+- 🔗 [Clases UML (HTML interactivo)](/sigpaz/docs/diagrams/DIAGRAMA%20DE%20CLASES%20COMPLETO.html)
+- 🔗 [Esquema de Base de Datos (HTML interactivo)](/sigpaz/docs/diagrams/ESQUEMA%20DE%20LA%20BD%20ORDENADO.html)
+- 🔗 [Modelo ER (HTML interactivo)](/sigpaz/docs/diagrams/MODELO%20ER%20ORDENADO.html)
+
+> 🖱️ **Nota:** Los archivos HTML de los diagramas son **interactivos**. Puedes hacer zoom, arrastrar los elementos y hacer clic en los enlaces directamente desde tu navegador.
 
 
 ## Características Clave
