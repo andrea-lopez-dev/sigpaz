@@ -1,1 +1,0 @@
-"QR: " . (strpos($persona- ?? '', 'data:image') === 0 ? '? Imagen v lida' : '? No es imagen') . "\n";
