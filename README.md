@@ -37,12 +37,12 @@ Clonar el repositorio
 
 ```bash
 git clone https://github.com/tu-usuario/sigpaz-backend.git
-...
+```
 
 
 ```bash
 cd sigpaz-backend
-...
+```
 
 
 
@@ -50,17 +50,17 @@ Instalar dependencias y configurar entorno
 
 ```bash
 composer install
-...
+```
 
 
 ```bash
 cp .env.example .env
-...
+```
 
 
 ```bash
 php artisan key:generate
-...
+```
 
 
 Configurar la base de datos PostgreSQL y ejecutar migraciones
@@ -68,7 +68,7 @@ Configurar la base de datos PostgreSQL y ejecutar migraciones
 
 ```bash
 php artisan migrate --seed
-...
+```
 
 
 Ejecutar el servidor de desarrollo
@@ -76,7 +76,7 @@ Ejecutar el servidor de desarrollo
 
 ```bash
 php artisan serve
-...
+```
 
 
 Características Clave
@@ -97,7 +97,7 @@ Ejecutar la suite de pruebas unitarias y de integración:
 
 ```bash
 php artisan test
-...
+```
 
 
 Licencia
