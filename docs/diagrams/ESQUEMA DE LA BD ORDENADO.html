@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esquema de Base de Datos - SIGPAZ (53 Tablas)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.7/leader-line.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f4f8;
+            padding: 20px;
+        }
+
+        .container {
+            position: relative;
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            min-height: 900px;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .controles {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-toggle-grupos {
+            background: #1e293b;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .btn-toggle-grupos:hover {
+            background: #0f172a;
+        }
+
+        .btn-toggle-grupos.activo {
+            background: #16a34a;
+        }
+
+        .btn-toggle-grupos.activo:hover {
+            background: #15803d;
+        }
+
+        .btn-restaurar {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .btn-restaurar:hover {
+            background: #d97706;
+        }
+
+        .btn-exportar-jpg {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .btn-exportar-jpg:hover {
+            background: #c0392b;
+        }
+
+        /* ===== GRUPOS DE TABLAS ===== */
+        .grupo {
+            border: 3px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+            position: relative;
+            background: #fafbfc;
+            transition: all 0.5s ease;
+            min-height: 100px;
+        }
+
+        .grupo-oculto {
+            border-color: transparent !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin-bottom: 10px !important;
+            min-height: auto !important;
+        }
+
+        .grupo-oculto .grupo-titulo {
+            display: none !important;
+        }
+
+        .grupo-oculto .grid-tablas {
+            gap: 10px !important;
+        }
+
+        .grupo-titulo {
+            position: absolute;
+            top: -14px;
+            left: 20px;
+            background: white;
+            padding: 0 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        /* Colores de grupos */
+        .grupo-parametricas {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+        .grupo-parametricas .grupo-titulo {
+            color: #1d4ed8;
+        }
+
+        .grupo-maestras {
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+        .grupo-maestras .grupo-titulo {
+            color: #15803d;
+        }
+
+        .grupo-transaccionales {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+        .grupo-transaccionales .grupo-titulo {
+            color: #b91c1c;
+        }
+
+        .grupo-apoyo {
+            border-color: #9333ea;
+            background: #faf5ff;
+        }
+        .grupo-apoyo .grupo-titulo {
+            color: #7e22ce;
+        }
+
+        .grupo-auditoria {
+            border-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .grupo-auditoria .grupo-titulo {
+            color: #b45309;
+        }
+
+        /* ===== GRID DE TABLAS ===== */
+        .grid-tablas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        /* ===== TABLAS ===== */
+        .tabla {
+            background: white;
+            border: 2px solid #1e293b;
+            border-radius: 8px;
+            min-width: 200px;
+            max-width: 700px;
+            flex: 0 1 auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 2;
+            cursor: move;
+            transition: box-shadow 0.3s;
+            scroll-margin-top: 100px;
+        }
+
+        .tabla-arrastrando {
+            z-index: 1000 !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .tabla-header {
+            background: #dbeafe;
+            padding: 6px 14px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            border-bottom: 2px solid #1e293b;
+            color: #0f172a;
+        }
+
+        .tabla-body {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 6px 10px;
+            gap: 4px;
+            min-height: 45px;
+            max-height: 100px;
+            scrollbar-width: thin;
+        }
+
+        .tabla-body::-webkit-scrollbar {
+            height: 5px;
+        }
+        .tabla-body::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .tabla-body::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3px 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            background: white;
+            flex: 0 0 auto;
+            min-width: 80px;
+            font-size: 0.7rem;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .campo .nombre {
+            font-weight: 700;
+            color: #0f172a;
+            white-space: nowrap;
+        }
+
+        .campo .tipo {
+            font-size: 0.6rem;
+            color: #475569;
+            white-space: nowrap;
+        }
+
+        /* ===== COLORES DE LLAVES ===== */
+        .pk {
+            background-color: #fef08a !important;
+            border-color: #ca8a04;
+        }
+
+        .fk {
+            background-color: #fbcfe8 !important;
+            border-color: #db2777;
+        }
+
+        /* ===== CARDINALIDAD VISUAL ===== */
+        .cardinalidad-1 {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            display: flex;
+            gap: 2px;
+            z-index: 20;
+            background: white;
+            padding: 1px 3px;
+            border-radius: 4px;
+            border: 1px solid #1e293b;
+        }
+
+        .cardinalidad-1 .linea {
+            width: 2px;
+            height: 10px;
+            background: #1e293b;
+            border-radius: 1px;
+        }
+
+        .cardinalidad-m {
+            position: absolute;
+            top: -18px;
+            left: -18px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            z-index: 20;
+            background: white;
+            padding: 1px 3px;
+            border-radius: 4px;
+            border: 1px solid #1e293b;
+        }
+
+        .cardinalidad-m .linea {
+            height: 2px;
+            width: 10px;
+            background: #1e293b;
+            border-radius: 1px;
+        }
+
+        /* ===== NOTA ===== */
+        .nota-final {
+            background: #f8fafc;
+            border: 1px solid #94a3b8;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+
+        .nota-final strong {
+            color: #1e293b;
+        }
+
+        @media (max-width: 768px) {
+            .tabla {
+                width: 100%;
+                max-width: 100%;
+            }
+            .tabla-body {
+                flex-wrap: wrap;
+                max-height: none;
+                overflow-x: visible;
+            }
+            .campo {
+                flex: 1 1 30%;
+                min-width: 60px;
+            }
+            .cardinalidad-1,
+            .cardinalidad-m {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="erdContainer">
+        <h1>📊 Esquema de Base de Datos - SIGPAZ (53 Tablas)</h1>
+
+        <div class="controles">
+            <button class="btn-toggle-grupos activo" id="btnToggleGrupos">
+                🎨 Ocultar/Mostrar Bloques de Clasificación
+            </button>
+            <button class="btn-restaurar" id="btnRestaurar">
+                📍 Restaurar Posiciones Originales
+            </button>
+            <button class="btn-exportar-jpg" id="btnExportarJPG">
+                🖼️ Exportar a JPG
+            </button>
+            <span style="font-size: 0.9rem; color: #64748b;">
+                (Las tablas se pueden arrastrar y las conexiones se mantienen)
+            </span>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- GRUPO: TABLAS PARAMÉTRICAS (13) -->
+        <!-- ============================================ -->
+        <div class="grupo grupo-parametricas" id="grupo-parametricas">
+            <div class="grupo-titulo">🔵 TABLAS PARAMÉTRICAS (13)</div>
+            <div class="grid-tablas" id="grid-parametricas">
+
+                <!-- 1. Genero -->
+                <div class="tabla" id="tabla-genero">
+                    <div class="tabla-header">Genero</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="genero-pk"><span class="nombre">genero_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(20)</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 2. EstadoCivil -->
+                <div class="tabla" id="tabla-estadocivil">
+                    <div class="tabla-header">EstadoCivil</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="estadocivil-pk"><span class="nombre">estado_civil_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 3. TipoDocumento -->
+                <div class="tabla" id="tabla-tipodoc">
+                    <div class="tabla-header">TipoDocumento</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="tipodoc-pk"><span class="nombre">tipo_documento_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo"><span class="nombre">descripcion</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 4. TipoConflicto -->
+                <div class="tabla" id="tabla-tipoconflicto">
+                    <div class="tabla-header">TipoConflicto</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="tipoconflicto-pk"><span class="nombre">tipo_conflicto_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">descripcion</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 5. EstadoDenuncia -->
+                <div class="tabla" id="tabla-estadodenuncia">
+                    <div class="tabla-header">EstadoDenuncia</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="estadodenuncia-pk"><span class="nombre">estado_denuncia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 6. EstadoAsistencia -->
+                <div class="tabla" id="tabla-estadoasistencia">
+                    <div class="tabla-header">EstadoAsistencia</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="estadoasistencia-pk"><span class="nombre">estado_asistencia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 7. Cargo -->
+                <div class="tabla" id="tabla-cargo">
+                    <div class="tabla-header">Cargo</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="cargo-pk"><span class="nombre">cargo_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">descripcion</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 8. TipoMedida -->
+                <div class="tabla" id="tabla-tipomedida">
+                    <div class="tabla-header">TipoMedida</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="tipomedida-pk"><span class="nombre">tipo_medida_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">descripcion</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 9. TipoNotificacion -->
+                <div class="tabla" id="tabla-tiponotif">
+                    <div class="tabla-header">TipoNotificacion</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="tiponotif-pk"><span class="nombre">tipo_notificacion_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">descripcion</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 10. TipoVinculo -->
+                <div class="tabla" id="tabla-tipovinculo">
+                    <div class="tabla-header">TipoVinculo</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="tipovinculo-pk"><span class="nombre">tipo_vinculo_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">descripcion</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 11. Rol -->
+                <div class="tabla" id="tabla-rol">
+                    <div class="tabla-header">Rol</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="rol-pk"><span class="nombre">rol_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">descripcion</span><span class="tipo">TEXT</span></div>
+                    </div>
+                </div>
+
+                <!-- 12. Permiso -->
+                <div class="tabla" id="tabla-permiso">
+                    <div class="tabla-header">Permiso</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="permiso-pk"><span class="nombre">permiso_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">descripcion</span><span class="tipo">TEXT</span></div>
+                    </div>
+                </div>
+
+                <!-- 13. Institucion -->
+                <div class="tabla" id="tabla-institucion">
+                    <div class="tabla-header">Institucion</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="institucion-pk"><span class="nombre">institucion_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(150)</span></div>
+                        <div class="campo"><span class="nombre">descripcion</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- GRUPO: TABLAS MAESTRAS (9) -->
+        <!-- ============================================ -->
+        <div class="grupo grupo-maestras" id="grupo-maestras">
+            <div class="grupo-titulo">🟢 TABLAS MAESTRAS (9)</div>
+            <div class="grid-tablas" id="grid-maestras">
+
+                <!-- 14. Persona -->
+                <div class="tabla" id="tabla-persona">
+                    <div class="tabla-header">Persona</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="persona-pk"><span class="nombre">persona_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="persona-tipodoc-fk"><span class="nombre">tipo_documento_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">numero_documento</span><span class="tipo">VARCHAR(30)</span></div>
+                        <div class="campo"><span class="nombre">nombres</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">apellidos</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">fecha_nacimiento</span><span class="tipo">DATE</span></div>
+                        <div class="campo fk" id="persona-genero-fk"><span class="nombre">genero_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nacionalidad</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo"><span class="nombre">lugar_nacimiento</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo fk" id="persona-estadocivil-fk"><span class="nombre">estado_civil_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">profesion_oficio</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">ocupacion_actual</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">direccion_cifrada</span><span class="tipo">BYTEA</span></div>
+                        <div class="campo"><span class="nombre">municipio</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">departamento</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">codigo_postal</span><span class="tipo">VARCHAR(10)</span></div>
+                        <div class="campo fk" id="persona-tipovinculo-fk"><span class="nombre">tipo_vinculo_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">discapacidad</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">observaciones</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">foto_cifrada</span><span class="tipo">BYTEA</span></div>
+                        <div class="campo"><span class="nombre">codigo_qr</span><span class="tipo">BYTEA</span></div>
+                        <div class="campo"><span class="nombre">firma_digital</span><span class="tipo">BYTEA</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 15. Personal -->
+                <div class="tabla" id="tabla-personal">
+                    <div class="tabla-header">Personal</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="personal-pk"><span class="nombre">personal_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="personal-persona-fk"><span class="nombre">persona_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="personal-cargo-fk"><span class="nombre">cargo_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">fecha_ingreso</span><span class="tipo">DATE</span></div>
+                        <div class="campo"><span class="nombre">fecha_egreso</span><span class="tipo">DATE</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 16. Usuario -->
+                <div class="tabla" id="tabla-usuario">
+                    <div class="tabla-header">Usuario</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="usuario-pk"><span class="nombre">usuario_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="usuario-personal-fk"><span class="nombre">personal_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="usuario-rol-fk"><span class="nombre">rol_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                        <div class="campo"><span class="nombre">intentos_fallidos</span><span class="tipo">INTEGER</span></div>
+                    </div>
+                </div>
+
+                <!-- 17. PreguntaSeguridad -->
+                <div class="tabla" id="tabla-pregunta">
+                    <div class="tabla-header">PreguntaSeguridad</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="pregunta-pk"><span class="nombre">pregunta_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">texto</span><span class="tipo">VARCHAR(255)</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 18. Chatbot_Base_Conocimiento -->
+                <div class="tabla" id="tabla-chatbotkb">
+                    <div class="tabla-header">Chatbot_Base_Conocimiento</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="chatbotkb-pk"><span class="nombre">id</span><span class="tipo">BIGINT</span></div>
+                        <div class="campo"><span class="nombre">categoria</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">intencion</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">pregunta</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">respuesta</span><span class="tipo">TEXT</span></div>
+                        <div class="campo fk" id="chatbotkb-creadopor-fk"><span class="nombre">creado_por</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 19. Chatbot_Cache_Semantico -->
+                <div class="tabla" id="tabla-chatcache">
+                    <div class="tabla-header">Chatbot_Cache_Semantico</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="chatcache-pk"><span class="nombre">id</span><span class="tipo">BIGINT</span></div>
+                        <div class="campo"><span class="nombre">hash_consulta</span><span class="tipo">VARCHAR(64)</span></div>
+                        <div class="campo"><span class="nombre">texto_consulta</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">texto_respuesta</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">veces_usado</span><span class="tipo">INTEGER</span></div>
+                    </div>
+                </div>
+
+                <!-- 20. Chatbot_Conversaciones -->
+                <div class="tabla" id="tabla-chatconv">
+                    <div class="tabla-header">Chatbot_Conversaciones</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="chatconv-pk"><span class="nombre">id</span><span class="tipo">BIGINT</span></div>
+                        <div class="campo"><span class="nombre">sesion_id</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo fk" id="chatconv-usuario-fk"><span class="nombre">usuario_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">estado</span><span class="tipo">VARCHAR(20)</span></div>
+                    </div>
+                </div>
+
+                <!-- 21. Chatbot_Mensajes -->
+                <div class="tabla" id="tabla-chatmsg">
+                    <div class="tabla-header">Chatbot_Mensajes</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="chatmsg-pk"><span class="nombre">id</span><span class="tipo">BIGINT</span></div>
+                        <div class="campo fk" id="chatmsg-conversacion-fk"><span class="nombre">conversacion_id</span><span class="tipo">BIGINT</span></div>
+                        <div class="campo"><span class="nombre">remitente</span><span class="tipo">VARCHAR(20)</span></div>
+                        <div class="campo"><span class="nombre">contenido</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">tokens_usados</span><span class="tipo">INTEGER</span></div>
+                    </div>
+                </div>
+
+                <!-- 22. Chatbot_Calificaciones -->
+                <div class="tabla" id="tabla-chatcalif">
+                    <div class="tabla-header">Chatbot_Calificaciones</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="chatcalif-pk"><span class="nombre">id</span><span class="tipo">BIGINT</span></div>
+                        <div class="campo fk" id="chatcalif-mensaje-fk"><span class="nombre">mensaje_id</span><span class="tipo">BIGINT</span></div>
+                        <div class="campo fk" id="chatcalif-usuario-fk"><span class="nombre">usuario_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">puntuacion</span><span class="tipo">SMALLINT</span></div>
+                        <div class="campo"><span class="nombre">fue_util</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- GRUPO: TABLAS TRANSACCIONALES (12) -->
+        <!-- ============================================ -->
+        <div class="grupo grupo-transaccionales" id="grupo-transaccionales">
+            <div class="grupo-titulo">🔴 TABLAS TRANSACCIONALES (12)</div>
+            <div class="grid-tablas" id="grid-transaccionales">
+
+                <!-- 23. Denuncia -->
+                <div class="tabla" id="tabla-denuncia">
+                    <div class="tabla-header">Denuncia</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="denuncia-pk"><span class="nombre">denuncia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">codigo_externo</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo"><span class="nombre">numero_expediente</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo fk" id="denuncia-persona-fk"><span class="nombre">persona_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="denuncia-tipoconflicto-fk"><span class="nombre">tipo_conflicto_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="denuncia-estado-fk"><span class="nombre">estado_denuncia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">codigo_qr_cifrado</span><span class="tipo">BYTEA</span></div>
+                    </div>
+                </div>
+
+                <!-- 24. Involucrado -->
+                <div class="tabla" id="tabla-involucrado">
+                    <div class="tabla-header">Involucrado</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="involucrado-pk"><span class="nombre">involucrado_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="involucrado-denuncia-fk"><span class="nombre">denuncia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="involucrado-persona-fk"><span class="nombre">persona_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">rol</span><span class="tipo">VARCHAR(50)</span></div>
+                    </div>
+                </div>
+
+                <!-- 25. Conciliacion -->
+                <div class="tabla" id="tabla-conciliacion">
+                    <div class="tabla-header">Conciliacion</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="conciliacion-pk"><span class="nombre">conciliacion_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="conciliacion-denuncia-fk"><span class="nombre">denuncia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="conciliacion-personal-fk"><span class="nombre">personal_conciliador_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">fecha_audiencia</span><span class="tipo">TIMESTAMP</span></div>
+                        <div class="campo"><span class="nombre">estado</span><span class="tipo">VARCHAR(20)</span></div>
+                    </div>
+                </div>
+
+                <!-- 26. VotoConciliacion -->
+                <div class="tabla" id="tabla-voto">
+                    <div class="tabla-header">VotoConciliacion</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="voto-pk"><span class="nombre">voto_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="voto-conciliacion-fk"><span class="nombre">conciliacion_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="voto-personal-fk"><span class="nombre">personal_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">voto</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 27. MedidaCautelar -->
+                <div class="tabla" id="tabla-medida">
+                    <div class="tabla-header">MedidaCautelar</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="medida-pk"><span class="nombre">medida_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="medida-conciliacion-fk"><span class="nombre">conciliacion_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="medida-tipo-fk"><span class="nombre">tipo_medida_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">fecha_inicio</span><span class="tipo">TIMESTAMP</span></div>
+                        <div class="campo"><span class="nombre">estado</span><span class="tipo">VARCHAR(50)</span></div>
+                    </div>
+                </div>
+
+                <!-- 28. Sentencia -->
+                <div class="tabla" id="tabla-sentencia">
+                    <div class="tabla-header">Sentencia</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="sentencia-pk"><span class="nombre">sentencia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="sentencia-conciliacion-fk"><span class="nombre">conciliacion_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">fecha_sentencia</span><span class="tipo">TIMESTAMP</span></div>
+                        <div class="campo"><span class="nombre">tipo_resolucion</span><span class="tipo">VARCHAR(100)</span></div>
+                    </div>
+                </div>
+
+                <!-- 29. Notificacion -->
+                <div class="tabla" id="tabla-notificacion">
+                    <div class="tabla-header">Notificacion</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="notificacion-pk"><span class="nombre">notificacion_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="notificacion-denuncia-fk"><span class="nombre">denuncia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="notificacion-tipo-fk"><span class="nombre">tipo_notificacion_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">fecha_emision</span><span class="tipo">TIMESTAMP</span></div>
+                        <div class="campo"><span class="nombre">estado</span><span class="tipo">VARCHAR(50)</span></div>
+                    </div>
+                </div>
+
+                <!-- 30. Remision -->
+                <div class="tabla" id="tabla-remision">
+                    <div class="tabla-header">Remision</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="remision-pk"><span class="nombre">remision_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="remision-denuncia-fk"><span class="nombre">denuncia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="remision-institucion-fk"><span class="nombre">institucion_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">motivo</span><span class="tipo">TEXT</span></div>
+                    </div>
+                </div>
+
+                <!-- 31. PrestamoExpediente -->
+                <div class="tabla" id="tabla-prestamo">
+                    <div class="tabla-header">PrestamoExpediente</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="prestamo-pk"><span class="nombre">prestamo_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="prestamo-denuncia-fk"><span class="nombre">denuncia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="prestamo-personal-fk"><span class="nombre">personal_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">fecha_prestamo</span><span class="tipo">TIMESTAMP</span></div>
+                        <div class="campo"><span class="nombre">estado</span><span class="tipo">VARCHAR(20)</span></div>
+                    </div>
+                </div>
+
+                <!-- 32. Asistencia -->
+                <div class="tabla" id="tabla-asistencia">
+                    <div class="tabla-header">Asistencia</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="asistencia-pk"><span class="nombre">asistencia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="asistencia-personal-fk"><span class="nombre">personal_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="asistencia-horario-fk"><span class="nombre">horario_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="asistencia-estado-fk"><span class="nombre">estado_asistencia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">hora_entrada</span><span class="tipo">TIMESTAMP</span></div>
+                        <div class="campo"><span class="nombre">hora_salida</span><span class="tipo">TIMESTAMP</span></div>
+                    </div>
+                </div>
+
+                <!-- 33. Horario -->
+                <div class="tabla" id="tabla-horario">
+                    <div class="tabla-header">Horario</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="horario-pk"><span class="nombre">horario_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="horario-personal-fk"><span class="nombre">personal_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">fecha</span><span class="tipo">DATE</span></div>
+                        <div class="campo"><span class="nombre">hora_inicio</span><span class="tipo">TIME</span></div>
+                        <div class="campo"><span class="nombre">hora_fin</span><span class="tipo">TIME</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- GRUPO: TABLAS DE APOYO (8) -->
+        <!-- ============================================ -->
+        <div class="grupo grupo-apoyo" id="grupo-apoyo">
+            <div class="grupo-titulo">🟣 TABLAS DE APOYO (8)</div>
+            <div class="grid-tablas" id="grid-apoyo">
+
+                <!-- 34. Codigos_OTP -->
+                <div class="tabla" id="tabla-otp">
+                    <div class="tabla-header">Codigos_OTP</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="otp-pk"><span class="nombre">id</span><span class="tipo">BIGINT</span></div>
+                        <div class="campo"><span class="nombre">codigo</span><span class="tipo">VARCHAR(10)</span></div>
+                        <div class="campo"><span class="nombre">activo</span><span class="tipo">BOOLEAN</span></div>
+                        <div class="campo fk" id="otp-generadopor-fk"><span class="nombre">generado_por</span><span class="tipo">BIGINT</span></div>
+                    </div>
+                </div>
+
+                <!-- 35. SecureStore -->
+                <div class="tabla" id="tabla-securestore">
+                    <div class="tabla-header">SecureStore</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="securestore-pk"><span class="nombre">store_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">tipo_dato</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo"><span class="nombre">tabla_referencia</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">referencia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">clave</span><span class="tipo">VARCHAR(100)</span></div>
+                    </div>
+                </div>
+
+                <!-- 36. Evidencias -->
+                <div class="tabla" id="tabla-evidencia">
+                    <div class="tabla-header">Evidencias</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="evidencia-pk"><span class="nombre">id</span><span class="tipo">BIGINT</span></div>
+                        <div class="campo fk" id="evidencia-denuncia-fk"><span class="nombre">denuncia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">nombre</span><span class="tipo">VARCHAR(255)</span></div>
+                        <div class="campo"><span class="nombre">tipo</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo"><span class="nombre">ruta</span><span class="tipo">TEXT</span></div>
+                    </div>
+                </div>
+
+                <!-- 37. Backup -->
+                <div class="tabla" id="tabla-backup">
+                    <div class="tabla-header">Backup</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="backup-pk"><span class="nombre">backup_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="backup-usuario-fk"><span class="nombre">usuario_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">estado</span><span class="tipo">VARCHAR(20)</span></div>
+                    </div>
+                </div>
+
+                <!-- 38. Restauracion -->
+                <div class="tabla" id="tabla-restauracion">
+                    <div class="tabla-header">Restauracion</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="restauracion-pk"><span class="nombre">restauracion_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="restauracion-backup-fk"><span class="nombre">backup_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="restauracion-usuario-fk"><span class="nombre">usuario_id</span><span class="tipo">INTEGER</span></div>
+                    </div>
+                </div>
+
+                <!-- 39. Alerta -->
+                <div class="tabla" id="tabla-alerta">
+                    <div class="tabla-header">Alerta</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="alerta-pk"><span class="nombre">alerta_id</span><span class="tipo">BIGINT</span></div>
+                        <div class="campo fk" id="alerta-usuario-fk"><span class="nombre">usuario_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">titulo</span><span class="tipo">VARCHAR(200)</span></div>
+                        <div class="campo"><span class="nombre">mensaje</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">tipo_alerta</span><span class="tipo">VARCHAR(20)</span></div>
+                        <div class="campo"><span class="nombre">leida</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+                <!-- 40. PoliticaRetencion -->
+                <div class="tabla" id="tabla-politica">
+                    <div class="tabla-header">PoliticaRetencion</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="politica-pk"><span class="nombre">politica_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">tipo_entidad</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo"><span class="nombre">dias_retencion</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">activa</span><span class="tipo">BOOLEAN</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- GRUPO: TABLAS DE AUDITORÍA (11) -->
+        <!-- ============================================ -->
+        <div class="grupo grupo-auditoria" id="grupo-auditoria">
+            <div class="grupo-titulo">🟠 TABLAS DE AUDITORÍA (11)</div>
+            <div class="grid-tablas" id="grid-auditoria">
+
+                <!-- 41. LogAuditoria -->
+                <div class="tabla" id="tabla-log">
+                    <div class="tabla-header">LogAuditoria</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="log-pk"><span class="nombre">log_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="log-usuario-fk"><span class="nombre">usuario_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">accion</span><span class="tipo">VARCHAR(20)</span></div>
+                        <div class="campo"><span class="nombre">tabla_afectada</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">registro_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">fecha</span><span class="tipo">TIMESTAMP</span></div>
+                    </div>
+                </div>
+
+                <!-- 42. EstadoHistorial -->
+                <div class="tabla" id="tabla-estadohist">
+                    <div class="tabla-header">EstadoHistorial</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="estadohist-pk"><span class="nombre">historial_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">entidad_tipo</span><span class="tipo">VARCHAR(50)</span></div>
+                        <div class="campo"><span class="nombre">entidad_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">estado_anterior</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">estado_nuevo</span><span class="tipo">VARCHAR(100)</span></div>
+                    </div>
+                </div>
+
+                <!-- 43. PersonaHistorial -->
+                <div class="tabla" id="tabla-personahist">
+                    <div class="tabla-header">PersonaHistorial</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="personahist-pk"><span class="nombre">historial_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="personahist-persona-fk"><span class="nombre">persona_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">snapshot_cifrado</span><span class="tipo">BYTEA</span></div>
+                    </div>
+                </div>
+
+                <!-- 44. DenunciaHistorial -->
+                <div class="tabla" id="tabla-denunciahist">
+                    <div class="tabla-header">DenunciaHistorial</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="denunciahist-pk"><span class="nombre">historial_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo fk" id="denunciahist-denuncia-fk"><span class="nombre">denuncia_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">version</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">tipo_cambio</span><span class="tipo">VARCHAR(50)</span></div>
+                    </div>
+                </div>
+
+                <!-- 45. ConfiguracionHistorial -->
+                <div class="tabla" id="tabla-confighist">
+                    <div class="tabla-header">ConfiguracionHistorial</div>
+                    <div class="tabla-body">
+                        <div class="campo pk" id="confighist-pk"><span class="nombre">historial_id</span><span class="tipo">INTEGER</span></div>
+                        <div class="campo"><span class="nombre">clave</span><span class="tipo">VARCHAR(100)</span></div>
+                        <div class="campo"><span class="nombre">valor_anterior</span><span class="tipo">TEXT</span></div>
+                        <div class="campo"><span class="nombre">valor_nuevo</span><span class="tipo">TEXT</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- NOTA FINAL -->
+        <div class="nota-final">
+            <strong>📌 Total de tablas: 53</strong><br>
+            • <strong>Paramétricas:</strong> 13 tablas<br>
+            • <strong>Maestras:</strong> 9 tablas<br>
+            • <strong>Transaccionales:</strong> 12 tablas<br>
+            • <strong>Apoyo:</strong> 8 tablas<br>
+            • <strong>Auditoría:</strong> 11 tablas<br>
+            • Las tablas se pueden arrastrar y las conexiones se mantienen pegadas a sus tablas.<br>
+            • Haz clic en <strong>FK</strong> para resaltar la tabla relacionada y <strong>desplazarte automáticamente</strong> hacia ella.<br>
+            • Usa el botón <strong>"Restaurar Posiciones Originales"</strong> para devolver todas las tablas a sus bloques iniciales.
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            const wrapper = document.getElementById('erdContainer');
+
+            // ===== GUARDAR POSICIONES ORIGINALES =====
+            const posicionesOriginales = {};
+            const tablas = document.querySelectorAll('.tabla');
+
+            function guardarPosicionesOriginales() {
+                tablas.forEach(tabla => {
+                    const rect = tabla.getBoundingClientRect();
+                    const wrapperRect = wrapper.getBoundingClientRect();
+                    posicionesOriginales[tabla.id] = {
+                        left: rect.left - wrapperRect.left,
+                        top: rect.top - wrapperRect.top
+                    };
+                });
+            }
+
+            function restaurarPosiciones() {
+                tablas.forEach(tabla => {
+                    tabla.style.position = 'relative';
+                    tabla.style.left = 'auto';
+                    tabla.style.top = 'auto';
+                    tabla.style.zIndex = 2;
+                });
+                setTimeout(() => {
+                    allLines.forEach(line => {
+                        try { line.position(); } catch(e) {}
+                    });
+                }, 100);
+            }
+
+            setTimeout(guardarPosicionesOriginales, 500);
+
+            // ===== TOGGLE DE GRUPOS =====
+            const btnToggle = document.getElementById('btnToggleGrupos');
+            let gruposVisibles = true;
+
+            const grupos = [
+                document.getElementById('grupo-parametricas'),
+                document.getElementById('grupo-maestras'),
+                document.getElementById('grupo-transaccionales'),
+                document.getElementById('grupo-apoyo'),
+                document.getElementById('grupo-auditoria')
+            ];
+
+            btnToggle.addEventListener('click', function() {
+                gruposVisibles = !gruposVisibles;
+                grupos.forEach(g => {
+                    g.classList.toggle('grupo-oculto', !gruposVisibles);
+                });
+                btnToggle.textContent = gruposVisibles ? '🎨 Ocultar Bloques de Clasificación' : '🎨 Mostrar Bloques de Clasificación';
+                btnToggle.classList.toggle('activo', gruposVisibles);
+                
+                setTimeout(() => {
+                    allLines.forEach(line => {
+                        try { line.position(); } catch(e) {}
+                    });
+                }, 400);
+            });
+
+            // ===== BOTÓN RESTAURAR =====
+            const btnRestaurar = document.getElementById('btnRestaurar');
+            btnRestaurar.addEventListener('click', restaurarPosiciones);
+
+            // ===== DRAG & DROP PARA TABLAS =====
+            let offsetX, offsetY, currentTabla = null;
+
+            tablas.forEach(tabla => {
+                tabla.addEventListener('mousedown', function(e) {
+                    if (e.target.closest('.campo')) return;
+                    currentTabla = this;
+                    const rect = this.getBoundingClientRect();
+                    offsetX = e.clientX - rect.left;
+                    offsetY = e.clientY - rect.top;
+                    
+                    this.style.position = 'absolute';
+                    this.style.zIndex = 1000;
+                    this.style.cursor = 'grabbing';
+                    this.classList.add('tabla-arrastrando');
+                    
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                });
+            });
+
+            function onMouseMove(e) {
+                if (!currentTabla) return;
+                const containerRect = wrapper.getBoundingClientRect();
+                let left = e.clientX - containerRect.left - offsetX;
+                let top = e.clientY - containerRect.top - offsetY;
+                
+                left = Math.max(0, Math.min(left, containerRect.width - currentTabla.offsetWidth));
+                top = Math.max(0, Math.min(top, containerRect.height - currentTabla.offsetHeight));
+                
+                currentTabla.style.left = left + 'px';
+                currentTabla.style.top = top + 'px';
+            }
+
+            function onMouseUp() {
+                if (currentTabla) {
+                    currentTabla.style.cursor = 'move';
+                    currentTabla.style.zIndex = 2;
+                    currentTabla.classList.remove('tabla-arrastrando');
+                    currentTabla = null;
+                }
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+                
+                setTimeout(() => {
+                    allLines.forEach(line => {
+                        try { line.position(); } catch(e) {}
+                    });
+                }, 100);
+            }
+
+            // ===== CLICK EN FK PARA SEÑALAR Y NAVEGAR =====
+            const fkCampos = document.querySelectorAll('.fk');
+            let fkResaltado = null;
+
+            fkCampos.forEach(fk => {
+                fk.addEventListener('click', function() {
+                    if (fkResaltado) {
+                        fkResaltado.classList.remove('fk-resaltado');
+                    }
+                    
+                    this.classList.add('fk-resaltado');
+                    fkResaltado = this;
+                    
+                    const nombreFK = this.querySelector('.nombre').textContent.trim();
+                    const nombreBase = nombreFK.split('_')[0];
+                    
+                    let tablaRelacionada = null;
+                    document.querySelectorAll('.tabla').forEach(t => {
+                        const header = t.querySelector('.tabla-header').textContent.trim().toLowerCase();
+                        if (header.includes(nombreBase.toLowerCase()) || 
+                            header.includes(nombreFK.toLowerCase().replace('_id', ''))) {
+                            tablaRelacionada = t;
+                        }
+                    });
+                    
+                    if (tablaRelacionada) {
+                        document.querySelectorAll('.tabla-resaltada').forEach(t => {
+                            t.classList.remove('tabla-resaltada');
+                        });
+                        
+                        tablaRelacionada.classList.add('tabla-resaltada');
+                        
+                        tablaRelacionada.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                        
+                        setTimeout(() => {
+                            tablaRelacionada.classList.remove('tabla-resaltada');
+                        }, 3000);
+                    }
+                });
+            });
+
+            // ===== CONEXIONES CON LEADERLINE =====
+            function connectTables(fromId, toId) {
+                const fromEl = document.getElementById(fromId);
+                const toEl = document.getElementById(toId);
+                if (!fromEl || !toEl) return null;
+
+                const line = new LeaderLine(
+                    fromEl,
+                    toEl, {
+                        color: '#1e293b',
+                        size: 2,
+                        startSocket: 'right',
+                        endSocket: 'left',
+                        startPlug: 'disc',
+                        endPlug: 'arrow1',
+                        path: 'grid',
+                        dash: false,
+                        dropShadow: false
+                    }
+                );
+
+                return line;
+            }
+
+            // ===== CONEXIONES =====
+            const allLines = [];
+
+            // Persona -> TipoDocumento
+            allLines.push(connectTables('persona-tipodoc-fk', 'tipodoc-pk'));
+            // Persona -> Genero
+            allLines.push(connectTables('persona-genero-fk', 'genero-pk'));
+            // Persona -> EstadoCivil
+            allLines.push(connectTables('persona-estadocivil-fk', 'estadocivil-pk'));
+            // Persona -> TipoVinculo
+            allLines.push(connectTables('persona-tipovinculo-fk', 'tipovinculo-pk'));
+
+            // Personal -> Persona
+            allLines.push(connectTables('personal-persona-fk', 'persona-pk'));
+            // Personal -> Cargo
+            allLines.push(connectTables('personal-cargo-fk', 'cargo-pk'));
+
+            // Usuario -> Personal
+            allLines.push(connectTables('usuario-personal-fk', 'personal-pk'));
+            // Usuario -> Rol
+            allLines.push(connectTables('usuario-rol-fk', 'rol-pk'));
+
+            // Denuncia -> Persona
+            allLines.push(connectTables('denuncia-persona-fk', 'persona-pk'));
+            // Denuncia -> TipoConflicto
+            allLines.push(connectTables('denuncia-tipoconflicto-fk', 'tipoconflicto-pk'));
+            // Denuncia -> EstadoDenuncia
+            allLines.push(connectTables('denuncia-estado-fk', 'estadodenuncia-pk'));
+
+            // Involucrado -> Denuncia
+            allLines.push(connectTables('involucrado-denuncia-fk', 'denuncia-pk'));
+            // Involucrado -> Persona
+            allLines.push(connectTables('involucrado-persona-fk', 'persona-pk'));
+
+            // Conciliacion -> Denuncia
+            allLines.push(connectTables('conciliacion-denuncia-fk', 'denuncia-pk'));
+            // Conciliacion -> Personal
+            allLines.push(connectTables('conciliacion-personal-fk', 'personal-pk'));
+
+            // Voto -> Conciliacion
+            allLines.push(connectTables('voto-conciliacion-fk', 'conciliacion-pk'));
+            // Voto -> Personal
+            allLines.push(connectTables('voto-personal-fk', 'personal-pk'));
+
+            // Medida -> Conciliacion
+            allLines.push(connectTables('medida-conciliacion-fk', 'conciliacion-pk'));
+            // Medida -> TipoMedida
+            allLines.push(connectTables('medida-tipo-fk', 'tipomedida-pk'));
+
+            // Sentencia -> Conciliacion
+            allLines.push(connectTables('sentencia-conciliacion-fk', 'conciliacion-pk'));
+
+            // Notificacion -> Denuncia
+            allLines.push(connectTables('notificacion-denuncia-fk', 'denuncia-pk'));
+            // Notificacion -> TipoNotificacion
+            allLines.push(connectTables('notificacion-tipo-fk', 'tiponotif-pk'));
+
+            // Remision -> Denuncia
+            allLines.push(connectTables('remision-denuncia-fk', 'denuncia-pk'));
+            // Remision -> Institucion
+            allLines.push(connectTables('remision-institucion-fk', 'institucion-pk'));
+
+            // Prestamo -> Denuncia
+            allLines.push(connectTables('prestamo-denuncia-fk', 'denuncia-pk'));
+            // Prestamo -> Personal
+            allLines.push(connectTables('prestamo-personal-fk', 'personal-pk'));
+
+            // Asistencia -> Personal
+            allLines.push(connectTables('asistencia-personal-fk', 'personal-pk'));
+            // Asistencia -> Horario
+            allLines.push(connectTables('asistencia-horario-fk', 'horario-pk'));
+            // Asistencia -> EstadoAsistencia
+            allLines.push(connectTables('asistencia-estado-fk', 'estadoasistencia-pk'));
+
+            // Horario -> Personal
+            allLines.push(connectTables('horario-personal-fk', 'personal-pk'));
+
+            // ChatbotKB -> Usuario
+            allLines.push(connectTables('chatbotkb-creadopor-fk', 'usuario-pk'));
+
+            // ChatbotMsg -> ChatbotConv
+            allLines.push(connectTables('chatmsg-conversacion-fk', 'chatconv-pk'));
+
+            // ChatbotConv -> Usuario
+            allLines.push(connectTables('chatconv-usuario-fk', 'usuario-pk'));
+
+            // ChatbotCalif -> ChatbotMsg
+            allLines.push(connectTables('chatcalif-mensaje-fk', 'chatmsg-pk'));
+            // ChatbotCalif -> Usuario
+            allLines.push(connectTables('chatcalif-usuario-fk', 'usuario-pk'));
+
+            // OTP -> Usuario
+            allLines.push(connectTables('otp-generadopor-fk', 'usuario-pk'));
+
+            // Evidencia -> Denuncia
+            allLines.push(connectTables('evidencia-denuncia-fk', 'denuncia-pk'));
+
+            // Backup -> Usuario
+            allLines.push(connectTables('backup-usuario-fk', 'usuario-pk'));
+
+            // Restauracion -> Backup
+            allLines.push(connectTables('restauracion-backup-fk', 'backup-pk'));
+            // Restauracion -> Usuario
+            allLines.push(connectTables('restauracion-usuario-fk', 'usuario-pk'));
+
+            // Alerta -> Usuario
+            allLines.push(connectTables('alerta-usuario-fk', 'usuario-pk'));
+
+            // DenunciaHist -> Denuncia
+            allLines.push(connectTables('denunciahist-denuncia-fk', 'denuncia-pk'));
+
+            // PersonaHist -> Persona
+            allLines.push(connectTables('personahist-persona-fk', 'persona-pk'));
+
+            // Log -> Usuario
+            allLines.push(connectTables('log-usuario-fk', 'usuario-pk'));
+
+            // ===== RE-POSICIONAR EN RESIZE =====
+            window.addEventListener('resize', function() {
+                allLines.forEach(line => {
+                    try { line.position(); } catch(e) {}
+                });
+            });
+
+            setTimeout(() => {
+                allLines.forEach(line => {
+                    try { line.position(); } catch(e) {}
+                });
+            }, 500);
+
+            window.addEventListener('load', function() {
+                allLines.forEach(line => {
+                    try { line.position(); } catch(e) {}
+                });
+            });
+
+            // ===== EXPORTAR A JPG CON LÍNEAS =====
+            document.getElementById('btnExportarJPG').addEventListener('click', function() {
+                const container = document.getElementById('erdContainer');
+                
+                // Forzar renderizado de líneas antes de capturar
+                allLines.forEach(line => {
+                    try { line.position(); } catch(e) {}
+                });
+                
+                setTimeout(function() {
+                    // Convertir líneas a elementos HTML estáticos
+                    const lineElements = document.querySelectorAll('.leader-line');
+                    const lineData = [];
+                    lineElements.forEach((line, index) => {
+                        const fromEl = line._startElement;
+                        const toEl = line._endElement;
+                        if (fromEl && toEl) {
+                            const fromRect = fromEl.getBoundingClientRect();
+                            const toRect = toEl.getBoundingClientRect();
+                            const containerRect = container.getBoundingClientRect();
+                            const x1 = fromRect.left + fromRect.width/2 - containerRect.left;
+                            const y1 = fromRect.top + fromRect.height/2 - containerRect.top;
+                            const x2 = toRect.left + toRect.width/2 - containerRect.left;
+                            const y2 = toRect.top + toRect.height/2 - containerRect.top;
+                            lineData.push({ x1, y1, x2, y2, color: '#1e293b', width: 2 });
+                        }
+                    });
+                    
+                    // Crear un elemento canvas temporal para dibujar las líneas
+                    const lineCanvas = document.createElement('canvas');
+                    lineCanvas.width = container.scrollWidth;
+                    lineCanvas.height = container.scrollHeight;
+                    const lineCtx = lineCanvas.getContext('2d');
+                    lineData.forEach(l => {
+                        lineCtx.beginPath();
+                        lineCtx.moveTo(l.x1, l.y1);
+                        lineCtx.lineTo(l.x2, l.y2);
+                        lineCtx.strokeStyle = l.color;
+                        lineCtx.lineWidth = l.width;
+                        lineCtx.stroke();
+                    });
+                    
+                    // Capturar el contenedor con html2canvas
+                    html2canvas(container, {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: '#ffffff',
+                        logging: false,
+                        width: container.scrollWidth,
+                        height: container.scrollHeight,
+                        scrollX: 0,
+                        scrollY: 0,
+                        windowWidth: container.scrollWidth,
+                        windowHeight: container.scrollHeight
+                    }).then(canvas => {
+                        // Fusionar el canvas de líneas con el canvas capturado
+                        const finalCanvas = document.createElement('canvas');
+                        finalCanvas.width = canvas.width;
+                        finalCanvas.height = canvas.height;
+                        const finalCtx = finalCanvas.getContext('2d');
+                        finalCtx.drawImage(canvas, 0, 0);
+                        
+                        // Escalar las líneas al tamaño del canvas capturado
+                        const scaleX = canvas.width / lineCanvas.width;
+                        const scaleY = canvas.height / lineCanvas.height;
+                        finalCtx.scale(scaleX, scaleY);
+                        finalCtx.drawImage(lineCanvas, 0, 0);
+                        
+                        const link = document.createElement('a');
+                        link.download = 'esquema_base_datos_sigpaz.jpg';
+                        link.href = finalCanvas.toDataURL('image/jpeg', 0.95);
+                        link.click();
+                    }).catch(err => {
+                        console.error('Error al exportar JPG:', err);
+                        alert('Error al exportar la imagen. Verifica la conexión a internet.');
+                    });
+                }, 800);
+            });
+
+        })();
+    </script>
+
+</body>
+</html>
