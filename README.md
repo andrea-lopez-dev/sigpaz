@@ -1,14 +1,15 @@
-# SIGPAZ Backend - API RESTful con Laravel 12
+# SIGPAZ - Sistema Full-Stack (Laravel + Angular)
 
-API del sistema SIGPAZ para la gestión de casos y control de asistencia del personal en el Módulo de Justicia de Paz Comunal "Circuito: Fuerza Revolucionaria".
+Sistema full-stack para la gestión de casos y control de asistencia del personal en el Módulo de Justicia de Paz Comunal "Circuito: Fuerza Revolucionaria".
 
 ## Stack Tecnológico
 
-Framework: Laravel 12 (PHP 8.2)
-Base de Datos: PostgreSQL 12+ (con extensiones pgcrypto y pgvector)
-Seguridad: JWT (Sanctum), RBAC, MFA con OTP, Cifrado AES-256 (pgcrypto)
-Arquitectura: MVC + Service Layer + Repository Pattern
-Patrones GoF: Singleton, Factory Method, Adapter, Observer, Repository, Service Layer
+- **Backend:** Laravel 12 (PHP 8.2) – API REST
+- **Frontend:** Angular 21 (TypeScript, RxJS, SCSS) – SPA
+- **Base de Datos:** PostgreSQL 12+ (con extensiones pgcrypto y pgvector)
+- **Seguridad:** JWT (Sanctum), RBAC, MFA con OTP, Cifrado AES-256 (pgcrypto)
+- **Arquitectura:** MVC + Service Layer + Repository Pattern (Backend) / MVVM con Signals (Frontend)
+- **Patrones GoF:** Singleton, Factory Method, Adapter, Observer, Repository, Service Layer
 
 ## Estructura del Proyecto
 
@@ -16,20 +17,23 @@ Patrones GoF: Singleton, Factory Method, Adapter, Observer, Repository, Service 
 /
 ├── app/
 │   ├── Http/
-│   │   ├── Controllers/Api/      # Controladores REST (Auditoria, Backup, Cargo, Denuncia, etc.)
+│   │   ├── Controllers/Api/      # Controladores REST
 │   │   └── Middleware/            # Middleware personalizado
-│   ├── Models/                    # Modelos Eloquent (Alertas, Denuncia, Persona, Usuario, etc.)
-│   ├── Repositories/              # Capa de abstracción de datos (BaseRepository, DenunciaRepository)
-│   ├── Services/                  # Lógica de negocio (DenunciaService, BackupService, ChatbotService)
+│   ├── Models/                    # Modelos Eloquent
+│   ├── Repositories/              # Capa de abstracción de datos
+│   ├── Services/                  # Lógica de negocio
 │   ├── Contracts/                 # Interfaces para los servicios
-│   ├── Enums/                     # Enumeraciones (EstadoDenuncia, TipoConflicto)
+│   ├── Enums/                     # Enumeraciones
 │   └── Exceptions/                # Manejo personalizado de excepciones
 ├── database/
 │   ├── migrations/                # Migraciones para las 53 tablas
-│   └── seeders/                   # Datos de prueba y catálogos iniciales
+│   ├── seeders/                   # Datos de prueba y catálogos iniciales
+│   └── scripts/                   # Script SQL con la estructura de la BD
+├── public/                        # Frontend de Angular compilado
+├── routes/                        # Definición de rutas de la API
 ├── tests/                         # PHPUnit (Pruebas unitarias y de integración)
 ├── resources/views/emails/        # Plantillas para notificaciones por correo
-└── bootstrap/                     # Configuración de la aplicación (Laravel 11)
+└── bootstrap/                     # Configuración de la aplicación
 ```
 
 ## Instalación y Configuración
@@ -37,17 +41,17 @@ Patrones GoF: Singleton, Factory Method, Adapter, Observer, Repository, Service 
 Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/sigpaz-backend.git
+git clone https://github.com/<tu-usuario>/sigpaz.git
 ```
 
 
 ```bash
-cd sigpaz-backend
+cd sigpaz
 ```
 
 
 
-Instalar dependencias y configurar entorno
+Instalar dependencias
 
 ```bash
 composer install
@@ -91,6 +95,8 @@ php artisan serve
 - **Auditoría:** Registro de eventos mediante Observers y Triggers de base de datos.
 
 - **Backups:** Módulo de respaldo automático con integración a la nube (Patrón Adapter).
+  
+- **Frontend:** Aplicación Web Modular con Angular, temas dinámicos (Claro, Oscuro, Neón).
 
 
 ## Pruebas
