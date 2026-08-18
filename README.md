@@ -79,6 +79,5 @@ bash
 php artisan test
 
 
-## Licencia
-
-MIT License. [Ver archivo LICENSE](./LICENSE)
+Licencia
+MIT License. Ver archivo LICENSE
