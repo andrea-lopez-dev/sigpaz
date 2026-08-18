@@ -1,10 +1,13 @@
 # SIGPAZ - Sistema Full-Stack (Laravel + Angular)
 
 <p align="center">
-  <img src="docs/media/sigpaz-demo.gif" 
-       width="700" 
-       style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"
-       alt="Demostración del sistema SIGPAZ en funcionamiento">
+  <iframe width="700" height="394" 
+          src="https://www.youtube.com/embed/X_LhrZLRbmI" 
+          title="Demostración del sistema SIGPAZ" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+  </iframe>
 </p>
 
 Sistema full-stack para la gestión de casos y control de asistencia del personal en el Módulo de Justicia de Paz Comunal "Circuito: Fuerza Revolucionaria".
@@ -108,32 +111,39 @@ php artisan serve
         <img src="docs/diagrams/DIAGRAMA%20C4.JPG" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
       </td>
       <td align="center">
-        <strong>UML - Actividades</strong><br>
-        <img src="docs/diagrams/DIAGRAMA%20DE%20ACTIVIDADES%20ORDEN...html" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
+        <strong>UML - Clases</strong><br>
+        <img src="docs/diagrams/diagrama_clases.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <a href="docs/diagrams/DIAGRAMA%20DE%20CLASES%20COMPLETO.html" target="_blank">📄 Ver HTML original</a>
       </td>
     </tr>
     <tr>
-      <td align="center">
-        <strong>UML - Clases</strong><br>
-        <img src="docs/diagrams/DIAGRAMA%20DE%20CLASES%20COMPLETO.html" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
-      </td>
       <td align="center">
         <strong>MER - Modelo ER</strong><br>
-        <img src="docs/diagrams/MODELO%20ER%20ORDENADO.html" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
+        <img src="docs/diagrams/modelo_er.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <a href="docs/diagrams/MODELO%20ER%20ORDENADO.html" target="_blank">📄 Ver HTML original</a>
+      </td>
+      <td align="center">
+        <strong>MER - Esquema BD</strong><br>
+        <img src="docs/diagrams/esquema_bd.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <a href="docs/diagrams/ESQUEMA%20DE%20LA%20BD%20ORDENADO.html" target="_blank">📄 Ver HTML original</a>
       </td>
     </tr>
     <tr>
       <td align="center">
-        <strong>MER - Esquema BD</strong><br>
-        <img src="docs/diagrams/ESQUEMA%20DE%20LA%20BD%20ORDENADO.html" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
+        <strong>UML - Actividades</strong><br>
+        <img src="docs/diagrams/actividades.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <a href="docs/diagrams/DIAGRAMA%20DE%20ACTIVIDADES%20ORDEN...html" target="_blank">📄 Ver HTML original</a>
       </td>
       <td align="center">
         <strong>Casos de Uso</strong><br>
-        <img src="docs/diagrams/DIAGRAMAS%20DE%20CASOS%20D%20EUSO%20OR...html" width="300" style="border-radius: 8px; border: 1px solid #ddd;">
+        <img src="docs/diagrams/casos_uso.png" width="300" style="border-radius: 8px; border: 1px solid #ddd;"><br>
+        <a href="docs/diagrams/DIAGRAMAS%20DE%20CASOS%20D%20EUSO%20OR...html" target="_blank">📄 Ver HTML original</a>
       </td>
     </tr>
   </table>
 </p>
+
+> 🖱️ **Nota:** Los archivos HTML originales de los diagramas son **interactivos**. Si los descargas y los abres en tu navegador, podrás hacer zoom, arrastrar los elementos, hacer clic en enlaces y explorar los diagramas con todas sus funcionalidades originales de Astah. Puedes encontrarlos en la carpeta `docs/diagrams/` del repositorio.
 
 
 ## Características Clave
