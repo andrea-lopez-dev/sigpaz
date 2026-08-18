@@ -1,0 +1,60 @@
+# ==========================================
+# LARAVEL (Backend)
+# ==========================================
+
+# Dependencias de Composer (NUNCA se suben)
+/vendor/
+
+# Archivos de entorno (contienen contraseñas)
+.env
+.env.backup
+.env.production
+
+# Cache y logs de Laravel
+/storage/
+/storage/*.key
+/bootstrap/cache/
+
+# Archivos generados por Laravel
+/public/storage
+/public/hot
+
+# Archivos de prueba
+.phpunit.result.cache
+.coverage
+.phpunit
+
+# Archivos de IDE y sistema operativo
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# ANGULAR (Frontend)
+# ==========================================
+
+# Dependencias de Node (NUNCA se suben)
+/node_modules/
+
+# Archivos de entorno de Angular
+/src/environments/environment.prod.ts
+/src/environments/environment.ts
+
+# Archivos generados por Angular (si no estás subiendo el compilado a la raíz)
+/dist/
+/build/
+
+# ==========================================
+# GENERAL (Seguridad y respaldo)
+# ==========================================
+
+# Archivos de respaldo del sistema
+*.log
+*.sqlite
+*.db
+
+# Claves privadas y certificados
+*.pem
+*.key
+*.crt
