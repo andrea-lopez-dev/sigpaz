@@ -104,10 +104,10 @@ Puedes visualizar todos los diagramas del sistema directamente en tu navegador s
 
 Para explorar las versiones interactivas de cada diagrama, haz clic en los siguientes enlaces:
 
-- 🔗 [Clases UML (HTML interactivo)](/sigpaz/docs/diagrams/DIAGRAMA_DE_CASOS_DE_USO.html)
-- 🔗 [Clases UML (HTML interactivo)](/sigpaz/docs/diagrams/DIAGRAMA_DE_CLASES_COMPLETO.html)
-- 🔗 [Esquema de Base de Datos (HTML interactivo)](/sigpaz/docs/diagrams/ESQUEMA_DE_LA_BD_ORDENADO.html)
-- 🔗 [Modelo ER (HTML interactivo)](/sigpaz/docs/diagrams/MODELO_ER_ORDENADO.html)
+- 🔗 [Clases UML (HTML interactivo)](//docs/diagrams/DIAGRAMA_DE_CASOS_DE_USO.html)
+- 🔗 [Clases UML (HTML interactivo)](//docs/diagrams/DIAGRAMA_DE_CLASES_COMPLETO.html)
+- 🔗 [Esquema de Base de Datos (HTML interactivo)](//docs/diagrams/ESQUEMA_DE_LA_BD_ORDENADO.html)
+- 🔗 [Modelo ER (HTML interactivo)](//docs/diagrams/MODELO_ER_ORDENADO.html)
 - 
 > 🖱️ **Nota:** Los archivos HTML de los diagramas son **interactivos**. Puedes hacer zoom, arrastrar los elementos y hacer clic en los enlaces directamente desde tu navegador.
 
