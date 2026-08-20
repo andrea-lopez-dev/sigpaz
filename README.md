@@ -109,7 +109,7 @@ Puedes visualizar todos los diagramas del sistema directamente en tu navegador e
 
 ## Visualización de Diagramas Interactivos
 
-Puedes explorar las versiones interactivas de todos los diagramas del sistema a través de tu sitio web en GitHub Pages:
+Puedes explorar las versiones interactivas de algunos diagramas del sistema a través de esta web en GitHub Pages:
 
 🌐 **Visita la web de documentación:** [https://andrea-lopez-dev.github.io/](https://andrea-lopez-dev.github.io/)
 
