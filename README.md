@@ -41,12 +41,14 @@
 └── bootstrap/                     # Configuración de la aplicación
 ```
 
+
 ## Documentación y Manuales
 
 Puedes consultar los manuales del sistema en la carpeta `docs/manuals/`:
 
 - [📄 Manual de Usuario](docs/manuals/MANUAL%20DE%20USUARIO%20FINAL.pdf)
 - [📄 Manual Técnico](docs/manuals/MANUAL%20TECNCO%20FINAL.pdf)
+
 
 
 ## Instalación y Configuración
@@ -96,11 +98,14 @@ Ejecutar el servidor de desarrollo
 php artisan serve
 ```
 
+
 ## 📄 Visualización de Diagramas (Versión PDF)
 
 Puedes visualizar todos los diagramas del sistema directamente en tu navegador en formato PDF, sin necesidad de descargarlos:
 
 📄 [Visualizar todos los diagramas del sistema en PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/andrea-lopez-dev/sigpaz/main/docs/diagrams/diagramas.pdf&embedded=true)
+
+
 
 ## Visualización de Diagramas Interactivos
 
@@ -108,9 +113,9 @@ Puedes explorar las versiones interactivas de todos los diagramas del sistema a 
 
 🌐 **Visita la web de documentación:** [https://andrea-lopez-dev.github.io/](https://andrea-lopez-dev.github.io/)
 
-Para acceder a los diagramas interactivos, haz clic en los siguientes enlaces:
-
 > 🖱️ **Nota:** Puedes interactuar con los diagramas directamente desde tu navegador.
+
+
 
 ## Características Clave
 
@@ -125,6 +130,7 @@ Para acceder a los diagramas interactivos, haz clic en los siguientes enlaces:
 - **Backups:** Módulo de respaldo automático con integración a la nube (Patrón Adapter).
   
 - **Frontend:** Aplicación Web Modular con Angular, temas dinámicos (Claro, Oscuro, Neón).
+
 
 
 ## Pruebas
