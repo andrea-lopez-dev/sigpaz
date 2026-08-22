@@ -260,20 +260,20 @@ git clone https://github.com/<tu-usuario>/sigpaz.git
 cd sigpaz
 ```
 
-**2. Instalar dependencias del Backend
+**2. Instalar dependencias del Backend**
 
 ```bash
 composer install
 ```
 
-**3. Configurar el entorno
+**3. Configurar el entorno**
 
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-**4. Configurar la base de datos PostgreSQL
+**4. Configurar la base de datos PostgreSQL**
 
 Edita el archivo .env con las credenciales de PostgreSQL:
 
@@ -287,25 +287,25 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-**5. Ejecutar migraciones y seeders
+**5. Ejecutar migraciones y seeders**
 
 ```bash
 php artisan migrate --seed
 ```
 
-**6. Instalar dependencias del Frontend
+**6. Instalar dependencias del Frontend**
 
 ```bash
 npm install
 npm run build
 
-**7. Ejecutar el servidor de desarrollo
+**7. Ejecutar el servidor de desarrollo**
 
 ```bash
 php artisan serve
 ```
 
-🧪 Pruebas
+🧪 **Pruebas**
 
 El sistema fue sometido a un riguroso proceso de validación:
 
@@ -317,7 +317,8 @@ Pruebas de Sistema: Flujos End-to-End.
 
 Pruebas de Aceptación: Validación con usuarios reales.
 
-Ejecutar la suite de pruebas:
+
+**Ejecutar la suite de pruebas:**
 
 ```bash
 php artisan test
