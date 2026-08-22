@@ -325,19 +325,19 @@ Pruebas de Aceptación: Validación con usuarios reales.
 php artisan test
 ```
 
-🎯 #Impacto Social
+## 🎯 Impacto Social
 
-La implementación del sistema SIGPAZ ha producido una transformación sustancial en la dinámica operativa de la institución:
+*  La implementación del sistema SIGPAZ ha producido una transformación sustancial en la dinámica operativa de la institución:
 
-Reducción drástica de los tiempos de espera para la recepción de denuncias.
+*  Reducción drástica de los tiempos de espera para la recepción de denuncias.
 
-Trazabilidad digital completa de cada caso, garantizando la transparencia y el no repudio.
+*  Trazabilidad digital completa de cada caso, garantizando la transparencia y el no repudio.
 
-Protección de datos sensibles de grupos vulnerables (niños, niñas, adultos mayores, víctimas de violencia).
+*  Protección de datos sensibles de grupos vulnerables (niños, niñas, adultos mayores, víctimas de violencia).
 
-Posicionamiento institucional como una instancia moderna, eficiente y ambientalmente responsable (menor uso de papel).
+*  Posicionamiento institucional como una instancia moderna, eficiente y ambientalmente responsable (menor uso de papel).
 
-Fortalecimiento del Poder Popular al dotar a la comunidad de una herramienta tecnológica de vanguardia.
+*  Fortalecimiento del Poder Popular al dotar a la comunidad de una herramienta tecnológica de vanguardia.
 
-📜 ##Licencia
+## 📜 Licencia
 📄 Ver archivo LICENSE para más detalles.
