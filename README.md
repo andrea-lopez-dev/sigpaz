@@ -306,17 +306,17 @@ npm run build
 php artisan serve
 ```
 
-🧪 **Pruebas**
+## 🧪 Pruebas
 
-El sistema fue sometido a un riguroso proceso de validación:
+*  El sistema fue sometido a un riguroso proceso de validación:
 
-Pruebas Unitarias: 100 pruebas (96% de éxito inicial).
+*  Pruebas Unitarias: 100 pruebas (96% de éxito inicial).
 
-Pruebas de Integración: 50 pruebas (92% de éxito inicial).
+*  Pruebas de Integración: 50 pruebas (92% de éxito inicial).
 
-Pruebas de Sistema: Flujos End-to-End.
+*  Pruebas de Sistema: Flujos End-to-End.
 
-Pruebas de Aceptación: Validación con usuarios reales.
+*  Pruebas de Aceptación: Validación con los usuarios finales.
 
 
 **Ejecutar la suite de pruebas:**
