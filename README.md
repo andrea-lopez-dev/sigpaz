@@ -53,6 +53,12 @@
 │       ├── TRIPTICOS.pdf
 │       ├── logo-sigpaz.png
 │       └── sigpaz-demo.gif
+├── .gitignore                     # Archivos ignorados por Git
+├── artisan                        # CLI de Laravel
+├── composer.json                  # Dependencias de PHP
+├── composer.lock                  # Bloqueo de versiones
+├── phpunit.xml                    # Configuración de pruebas unitarias
+├── vite.config.js                 # Configuración de Vite (Frontend)
 ├── LICENSE                        # Licencia del proyecto
 └── README.md                      # Documentación del proyecto
 ```
