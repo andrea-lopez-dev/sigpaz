@@ -317,7 +317,7 @@ php artisan serve
 
 ## 🧪 Pruebas
 
-*  El sistema fue sometido a un riguroso proceso de validación:
+El sistema fue sometido a un riguroso proceso de validación:
 
 *  Pruebas Unitarias: 100 pruebas (96% de éxito inicial).
 
@@ -336,7 +336,7 @@ php artisan test
 
 ## 🎯 Impacto Social
 
-*  La implementación del sistema SIGPAZ ha producido una transformación sustancial en la dinámica operativa de la institución:
+La implementación del sistema SIGPAZ ha producido una transformación sustancial en la dinámica operativa de la institución:
 
 *  Reducción drástica de los tiempos de espera para la recepción de denuncias.
 
