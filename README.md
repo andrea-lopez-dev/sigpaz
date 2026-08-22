@@ -260,23 +260,24 @@ git clone https://github.com/<tu-usuario>/sigpaz.git
 cd sigpaz
 ```
 
-2. Instalar dependencias del Backend
+**2. Instalar dependencias del Backend
 
-bash
+```bash
 composer install
 ```
 
-3. Configurar el entorno
+**3. Configurar el entorno
 
-bash
+```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-4. Configurar la base de datos PostgreSQL
+**4. Configurar la base de datos PostgreSQL
 
 Edita el archivo .env con las credenciales de PostgreSQL:
 
+```bash
 ini
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
@@ -284,22 +285,28 @@ DB_PORT=5432
 DB_DATABASE=sigpaz
 DB_USERNAME=root
 DB_PASSWORD=
-5. Ejecutar migraciones y seeders
+```
 
-bash
+**5. Ejecutar migraciones y seeders
+
+```bash
 php artisan migrate --seed
-6. Instalar dependencias del Frontend
+```
 
-bash
+**6. Instalar dependencias del Frontend
+
+```bash
 npm install
 npm run build
-7. Ejecutar el servidor de desarrollo
 
-bash
+**7. Ejecutar el servidor de desarrollo
+
+```bash
 php artisan serve
 ```
 
 🧪 Pruebas
+
 El sistema fue sometido a un riguroso proceso de validación:
 
 Pruebas Unitarias: 100 pruebas (96% de éxito inicial).
@@ -312,11 +319,11 @@ Pruebas de Aceptación: Validación con usuarios reales.
 
 Ejecutar la suite de pruebas:
 
-bash
+```bash
 php artisan test
 ```
 
-🎯 Impacto Social
+🎯 #Impacto Social
 
 La implementación del sistema SIGPAZ ha producido una transformación sustancial en la dinámica operativa de la institución:
 
@@ -330,7 +337,5 @@ Posicionamiento institucional como una instancia moderna, eficiente y ambientalm
 
 Fortalecimiento del Poder Popular al dotar a la comunidad de una herramienta tecnológica de vanguardia.
 
-📜 Licencia
-Distribuido bajo la licencia MIT.
-
+📜 ##Licencia
 📄 Ver archivo LICENSE para más detalles.
