@@ -298,6 +298,7 @@ php artisan migrate --seed
 ```bash
 npm install
 npm run build
+```
 
 **7. Ejecutar el servidor de desarrollo**
 
