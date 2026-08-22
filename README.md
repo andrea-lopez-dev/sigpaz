@@ -115,123 +115,147 @@ Este sistema surge como respuesta a las limitaciones de la gestión manual basad
 └── README.md                      # Documentación del proyecto
 ```
 
-⚙️ Características Clave
+## ⚙️ Características Clave
 
-🔐 Seguridad y Autenticación
+### 🔐 Seguridad y Autenticación
 
-Autenticación JWT: Comunicación segura y sin estado (stateless) entre el frontend y el backend.
+*   **Autenticación JWT:** Comunicación segura y sin estado (stateless) entre el frontend y el backend.
+*   **Autenticación Multifactor (MFA):** Verificación secundaria mediante preguntas de seguridad rotativas con máx. 3 intentos.
+*   **Control de Acceso Basado en Roles (RBAC):** Permisos específicos para Jueces de Paz, Secretarios y Alguaciles.
+*   **Cifrado AES-256:** Protección de datos personales en reposo mediante la extensión `pgcrypto` de PostgreSQL.
+*   **Cifrado en Tránsito:** Uso de TLS 1.3 para todas las comunicaciones.
+*   **Auditoría de Eventos:** Registro de cada acción (crear, leer, actualizar, eliminar) mediante Observers y Triggers.
 
-Autenticación Multifactor (MFA): Verificación secundaria mediante preguntas de seguridad rotativas con máx. 3 intentos.
+### 🛠️ Módulos Funcionales
 
-Control de Acceso Basado en Roles (RBAC): Permisos específicos para Jueces de Paz, Secretarios y Alguaciles.
+**Gestión de Casos:**
 
-Cifrado AES-256: Protección de datos personales en reposo mediante la extensión pgcrypto de PostgreSQL.
+*   Registro de denuncias con validación automática de duplicidad y generación de número de expediente único.
+*   Digitalización de evidencias y cadena de custodia.
+*   Programación de audiencias y generación automática de actas en PDF.
+*   Sistema de votación para fallos en equidad (máx. 6 votos con cálculo automático).
+*   Escalamiento automático al Sistema Judicial en casos fuera de competencia.
 
-Cifrado en Tránsito: Uso de TLS 1.3 para todas las comunicaciones.
+**Gestión de Medidas y Sentencias:**
 
-Auditoría de Eventos: Registro de cada acción (crear, leer, actualizar, eliminar) mediante Observers y Triggers.
+*   Registro digital de medidas cautelares con seguimiento de vencimiento.
+*   Generación automática de sentencias con firma digital del Juez.
 
-🛠️ Módulos Funcionales
-Gestión de Casos:
+**Administración del Personal:**
 
-Registro de denuncias con validación automática de duplicidad y generación de número de expediente único.
+*   Marcación digital de entrada y salida (registro en tiempo real).
+*   Cálculo automático de horas trabajadas y detección de llegadas tardías.
+*   Gestión de inasistencias y justificaciones con carga de documentos.
 
-Digitalización de evidencias y cadena de custodia.
+**Gestión de Préstamos:**
 
-Programación de audiencias y generación automática de actas en PDF.
+*   Control digital de préstamos de expedientes con alertas automáticas a las 72 horas.
 
-Sistema de votación para fallos en equidad (máx. 6 votos con cálculo automático).
+**Reportes y Dashboard:**
 
-Escalamiento automático al Sistema Judicial en casos fuera de competencia.
+*   Dashboard con estadísticas en tiempo real y gráficos interactivos.
+*   Exportación de reportes en múltiples formatos (PDF, XLSX, CSV).
 
-Gestión de Medidas y Sentencias:
+**Asistencia Virtual (Chatbot):**
 
-Registro digital de medidas cautelares con seguimiento de vencimiento.
+*   Chatbot con búsqueda semántica mediante `pgvector` para soporte técnico y generación de códigos OTP maestros.
 
-Generación automática de sentencias con firma digital del Juez.
+---
 
-Administración del Personal:
+## 🗄️ Arquitectura y Patrones
 
-Marcación digital de entrada y salida (registro en tiempo real).
-
-Cálculo automático de horas trabajadas y detección de llegadas tardías.
-
-Gestión de inasistencias y justificaciones con carga de documentos.
-
-Gestión de Préstamos:
-
-Control digital de préstamos de expedientes con alertas automáticas a las 72 horas.
-
-Reportes y Dashboard:
-
-Dashboard con estadísticas en tiempo real y gráficos interactivos.
-
-Exportación de reportes en múltiples formatos (PDF, XLSX, CSV).
-
-Asistencia Virtual (Chatbot):
-
-Chatbot con búsqueda semántica mediante pgvector para soporte técnico y generación de códigos OTP maestros.
-
-🗄️ Arquitectura y Patrones
 El sistema ha sido construido siguiendo los principios de ingeniería de software más reconocidos internacionalmente, garantizando un código limpio, desacoplado, testeable y escalable.
 
-Principios SOLID Aplicados
-S - Responsabilidad Única (SRP)
+### Principios SOLID Aplicados
 
-O - Abierto/Cerrado (OCP)
+*   **S** - Responsabilidad Única (SRP)
+*   **O** - Abierto/Cerrado (OCP)
+*   **L** - Sustitución de Liskov (LSP)
+*   **I** - Segregación de Interfaces (ISP)
+*   **D** - Inversión de Dependencias (DIP)
 
-L - Sustitución de Liskov (LSP)
+### Patrones de Diseño GoF
 
-I - Segregación de Interfaces (ISP)
+*   **Singleton:** Servicios de autenticación en Angular.
+*   **Factory Method:** Creación de estrategias de backup.
+*   **Adapter:** Integración con múltiples proveedores de nube (Backblaze, MEGA, OneDrive).
+*   **Observer:** Sistema de auditoría y notificaciones.
+*   **Repository & Service Layer:** Abstracción del acceso a datos y lógica de negocio.
 
-D - Inversión de Dependencias (DIP)
+### Arquitectura del Sistema
 
-Patrones de Diseño GoF
-Singleton: Servicios de autenticación en Angular.
+*   **Backend:** Laravel 12 (MVC + Service Layer).
+*   **Frontend:** Angular 21 (MVVM con Signals y RxJS).
+*   **Base de Datos:** PostgreSQL 12+ con 53 tablas, 115 índices y 25 triggers para garantizar la integridad referencial y la automatización de procesos.
 
-Factory Method: Creación de estrategias de backup.
+---
 
-Adapter: Integración con múltiples proveedores de nube (Backblaze, MEGA, OneDrive).
+## 📄 Visualización de Diagramas
 
-Observer: Sistema de auditoría y notificaciones.
-
-Repository & Service Layer: Abstracción del acceso a datos y lógica de negocio.
-
-Arquitectura del Sistema
-Backend: Laravel 12 (MVC + Service Layer).
-
-Frontend: Angular 21 (MVVM con Signals y RxJS).
-
-Base de Datos: PostgreSQL 12+ con 53 tablas, 115 índices y 25 triggers para garantizar la integridad referencial y la automatización de procesos.
-
-📄 Visualización de Diagramas
 Puedes visualizar todos los diagramas del sistema directamente en tu navegador sin necesidad de descargarlos:
 
-📄 Visualizar todos los diagramas del sistema en PDF
+*   📄 [Visualizar todos los diagramas del sistema en PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/andrea-lopez-dev/sigpaz/main/docs/diagrams/diagramas.pdf&embedded=true)
 
-Visualización Interactiva
+### Visualización Interactiva
+
 Explora las versiones interactivas de los diagramas a través de esta web en GitHub Pages:
 
-🌐 Visita la web de documentación: https://andrea-lopez-dev.github.io/
+🌐 **Visita la web de documentación:** [https://andrea-lopez-dev.github.io/](https://andrea-lopez-dev.github.io/)
 
-🖱️ Nota: Puedes interactuar con los diagramas directamente desde tu navegador.
+> 🖱️ **Nota:** Puedes interactuar con los diagramas directamente desde tu navegador.
 
-📚 Documentación y Manuales
-Puedes consultar los manuales del sistema en la carpeta docs/manuals/:
+---
 
-📄 Manual de Usuario
+## 📚 Documentación y Manuales
 
-📄 Manual Técnico
+Puedes consultar los manuales del sistema en la carpeta `docs/manuals/`:
 
-📄 Tríptico Informativo
+*   📄 [Manual de Usuario](docs/manuals/MANUAL%20DE%20USUARIO%20FINAL.pdf)
+*   📄 [Manual Técnico](docs/manuals/MANUAL%20TECNCO%20FINAL.pdf)
+*   📄 [Tríptico Informativo](docs/media/TRIPTICOS.pdf)
 
-🛠️ Instalación y Configuración
-Requisitos Previos
-<table align="center"> <thead> <tr> <th>Requisito</th> <th>Versión</th> </tr> </thead> <tbody> <tr> <td><strong>PHP</strong></td> <td>8.2 o superior</td> </tr> <tr> <td><strong>Composer</strong></td> <td>2.x</td> </tr> <tr> <td><strong>Node.js</strong></td> <td>20.x o superior</td> </tr> <tr> <td><strong>PostgreSQL</strong></td> <td>12.0 o superior</td> </tr> <tr> <td><strong>Servidor Web</strong></td> <td>Apache / Nginx</td> </tr> </tbody> </table>
-Pasos de Instalación
-1. Clonar el repositorio
+---
 
-bash
+## 🛠️ Instalación y Configuración
+
+### Requisitos Previos
+
+<table align="center">
+  <thead>
+    <tr>
+      <th>Requisito</th>
+      <th>Versión</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PHP</strong></td>
+      <td>8.2 o superior</td>
+    </tr>
+    <tr>
+      <td><strong>Composer</strong></td>
+      <td>2.x</td>
+    </tr>
+    <tr>
+      <td><strong>Node.js</strong></td>
+      <td>20.x o superior</td>
+    </tr>
+    <tr>
+      <td><strong>PostgreSQL</strong></td>
+      <td>12.0 o superior</td>
+    </tr>
+    <tr>
+      <td><strong>Servidor Web</strong></td>
+      <td>Apache / Nginx</td>
+    </tr>
+  </tbody>
+</table>
+
+### Pasos de Instalación
+
+**1. Clonar el repositorio**
+
+```bash
 git clone https://github.com/<tu-usuario>/sigpaz.git
 cd sigpaz
 2. Instalar dependencias del Backend
