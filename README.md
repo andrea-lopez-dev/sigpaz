@@ -257,6 +257,9 @@ Puedes consultar los manuales del sistema en la carpeta `docs/manuals/`:
 
 ```bash
 git clone https://github.com/<tu-usuario>/sigpaz.git
+```
+
+```bash
 cd sigpaz
 ```
 
@@ -270,6 +273,9 @@ composer install
 
 ```bash
 cp .env.example .env
+```
+
+```bash
 php artisan key:generate
 ```
 
@@ -297,6 +303,9 @@ php artisan migrate --seed
 
 ```bash
 npm install
+```
+
+```bash
 npm run build
 ```
 
@@ -340,4 +349,4 @@ php artisan test
 *  Fortalecimiento del Poder Popular al dotar a la comunidad de una herramienta tecnológica de vanguardia.
 
 ## 📜 Licencia
-📄 Ver archivo LICENSE para más detalles.
+📄 **Ver archivo [LICENSE](LICENSE) para más detalles.**.
