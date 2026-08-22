@@ -258,15 +258,21 @@ Puedes consultar los manuales del sistema en la carpeta `docs/manuals/`:
 ```bash
 git clone https://github.com/<tu-usuario>/sigpaz.git
 cd sigpaz
+```
+
 2. Instalar dependencias del Backend
 
 bash
 composer install
+```
+
 3. Configurar el entorno
 
 bash
 cp .env.example .env
 php artisan key:generate
+```
+
 4. Configurar la base de datos PostgreSQL
 
 Edita el archivo .env con las credenciales de PostgreSQL:
@@ -291,6 +297,8 @@ npm run build
 
 bash
 php artisan serve
+```
+
 🧪 Pruebas
 El sistema fue sometido a un riguroso proceso de validación:
 
@@ -306,7 +314,10 @@ Ejecutar la suite de pruebas:
 
 bash
 php artisan test
+```
+
 🎯 Impacto Social
+
 La implementación del sistema SIGPAZ ha producido una transformación sustancial en la dinámica operativa de la institución:
 
 Reducción drástica de los tiempos de espera para la recepción de denuncias.
