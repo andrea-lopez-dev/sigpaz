@@ -16,7 +16,7 @@
 - **Arquitectura:** MVC + Service Layer + Repository Pattern (Backend) / MVVM con Signals (Frontend)
 - **Patrones GoF:** Singleton, Factory Method, Adapter, Observer, Repository, Service Layer
 
-## Estructura del Proyecto
+## 📂 Estructura del Proyecto
 
 ```text
 /
@@ -38,7 +38,23 @@
 ├── routes/                        # Definición de rutas de la API
 ├── tests/                         # PHPUnit (Pruebas unitarias y de integración)
 ├── resources/views/emails/        # Plantillas para notificaciones por correo
-└── bootstrap/                     # Configuración de la aplicación
+├── bootstrap/                     # Configuración de la aplicación
+├── docs/
+│   ├── diagrams/
+│   │   ├── DIAGRAMA_DE_CASOS_DE_USO.html
+│   │   ├── DIAGRAMA_DE_CLASES_COMPLETO.html
+│   │   ├── ESQUEMA_DE_LA_BD_ORDENADO.html
+│   │   ├── MODELO_ER_ORDENADO.html
+│   │   └── diagramas.pdf
+│   ├── manuals/
+│   │   ├── MANUAL_DE_USUARIO_FINAL.pdf
+│   │   └── MANUAL_TECNICO_FINAL.pdf
+│   └── media/
+│       ├── TRIPTICOS.pdf
+│       ├── logo-sigpaz.png
+│       └── sigpaz-demo.gif
+├── LICENSE                        # Licencia del proyecto
+└── README.md                      # Documentación del proyecto
 ```
 
 
